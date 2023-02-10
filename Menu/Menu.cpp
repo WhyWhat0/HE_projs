@@ -6,10 +6,10 @@ int main(){
 	setlocale(LC_ALL, "Russian");
 	while (true) {
 		system("cls"); // очистка экрана
-		cout << "Выполнил студент группы 1бИТС2 Долгов Семен Вадимович" << endl;
-		cout << "Выберите лабораторную работу:" <<endl;
-		cout << "1) 1 семестр" << endl;
-		cout << "2) 2 семестр" << endl;
+		cout << "Выполнил студент группы 1бИТС2 Долгов Семен Вадимович" << endl << endl;
+		cout << "Выберите лабораторную работу:" <<endl << endl;
+		cout << "1) 1 семестр" << endl << endl;
+		cout << "2) 2 семестр" << endl << endl;
 		cout << "0) Выход из программы" << endl;
 		cin >> i;
 		system("cls");
