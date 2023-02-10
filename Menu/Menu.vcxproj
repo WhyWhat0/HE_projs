@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lab_funcs.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="menu_funcs.cpp" />
   </ItemGroup>
