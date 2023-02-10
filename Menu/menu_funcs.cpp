@@ -216,6 +216,6 @@ void lab5()
 	for (int i = 0;i < 20;i++) {
 		arr[i] = l + rand() % (r - l + 1);
 		unsigned short col = arr[i] & mask;
-	    if (col == mask) cout << arr[i] << " ";
+	    if (col == mask || col == arr[i]) cout << arr[i] << " ";
 	}
 }
