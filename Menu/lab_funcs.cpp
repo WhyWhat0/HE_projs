@@ -34,6 +34,12 @@ float f(float a, float x, float k) { //функция вычисления значения Y
 	return pow(abs(pow(a, 2) - (x + pow(a, 2))), 0.5) - 2 * a;
 }
 
+void move(int x, int y) {
+	COORD position = { x,y }; //позиция x и y
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleCursorPosition(hConsole, position);
+}
+
 void lab2_1()
 {
 	float b1 = 0, b2 = 0, b3 = 0;
@@ -262,12 +268,35 @@ void lab6() {
 		0b1111'1111'1111'1111'1111'1111'1111'1111,
 		0b1111'1111'1111'1111'1111'1111'1111'1111		
 	};
-
-	int nX, nY, nbx, nby, nEx, nEy;
+	char curs;
+	int nX, nY, nbx = 24, nby = 0, nEx, nEy;
 	unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
-	for (nX = 0; nX < 32; nX++) {
-		for (nY = 0; nY < 32; nY++) {
-			if ((Bit >> nX + 1) & map[nY]) cout << "WW"; else cout << " ";
+	system("cls");
+	for (nY = 0; nY < 32; nY++) {
+		for (nX = 0; nX < 32; nX++) {
+			if ((Bit >> nX) & map[nY]) cout << "WW"; else cout << "  ";
 		}
+		cout << endl;
 	}
+	do {
+		
+		move(nbx, nby);
+		curs = _getch();
+		switch (curs) {
+		case 72:
+		case 119:
+			nby -= 1; break;
+		case 80:
+		case 115:
+			nby += 1; break;
+		case 75:
+		case 97:
+			nbx -= 1; break;
+		case 77:
+		case 100:
+			nbx += 1; break;
+		default:
+			Beep(400, 50); break;
+		}
+	} while (curs != 27);
 }
