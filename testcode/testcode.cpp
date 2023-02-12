@@ -12,28 +12,12 @@ void move(int x, int y) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hConsole, position);
 }
+int f(int x, int y, int map[]) {
+	return x * y * map[2];
+}
 int main () {
-
-	char key;
-	const int UP = 72;
-	do {
-		key = _getch();
-		switch (key) {
-		case 72:
-		case 119:
-			cout << "000"; break;
-		case 80:
-		case 115:
-			cout << "111"; break;
-		case 75:
-		case 97:
-			cout << "222"; break;
-		case 77:
-		case 100:
-			cout << "333"; break;
-		default:
-			Beep(400, 50); break;
-		}
-		cout << endl;
-	} while (key != 27);
+	unsigned int Bit = 0b0000'0000'0000'0000'0000'0000'0000'0010;
+	int map[] = { 1,2,3,4,5 };
+	cout << f(1, 2, map);
+	return 0;
 }

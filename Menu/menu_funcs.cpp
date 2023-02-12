@@ -1,5 +1,4 @@
 #include "Header.h"
-
 int menu1() {
 	while(true){
 		system("cls"); // очистка экрана
