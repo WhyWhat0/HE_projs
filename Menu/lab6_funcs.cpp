@@ -11,15 +11,14 @@ void move(int x, int y) {
 }
 bool wall(int x, int y, int map[]) {
 	unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
-	//cout << ((Bit >> x/2) & map[y]);
-	if ((Bit >> x/2) & map[y]) {
+	if ((Bit >> x/2) & map[y+1]) {
 		Beep(400, 100);
 		return true;
 	}
 	return false;
 }
 bool end(int x, int y, int ex, int ey) {
-	if ((x == ex*2) and (y = ey)) {
+	if ((x == ex) and (y = ey)) {
 		system("cls");
 		cout << "Easy win!!!";
 		return true;
