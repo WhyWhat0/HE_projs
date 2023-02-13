@@ -269,10 +269,18 @@ void lab6() {
 	system("cls");
 	for (ny = 0; ny < 32; ny++) {
 		for (nx = 0; nx < 32; nx++) {
-			if ((Bit >> nx) & map[ny]) cout << "WW"; else cout << "  ";
+			if ((Bit >> nx) & map[ny]) {
+				SetColor(7, 7);
+				cout << "WW";
+			}
+			else {
+				SetColor(0, 15);
+				cout << "  ";
+			}
 		}
 		cout << endl;
 	}
+	
 	nx = nbx; ny = nby;	
 	do {
 		move(nx, ny);
@@ -314,4 +322,6 @@ void lab6() {
 		}
 	} while (c != 27);
 	system("cls");
+	SetColor(0, 15);
+
 }
