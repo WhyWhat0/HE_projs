@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lab6.cpp" />
     <ClCompile Include="lab6_funcs.cpp" />
     <ClCompile Include="lab_funcs.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -135,6 +136,7 @@
   <ItemGroup>
     <ClInclude Include="Header.h" />
     <ClInclude Include="lab6.h" />
+    <ClInclude Include="lab6_funcs.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Source.txt" />

@@ -1,9 +1,5 @@
-#include"Header.h"
+#include"lab6_funcs.h"
 
-void SetColor(int pnColorBackground, int pnColorText) {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, (WORD)(((pnColorBackground & 0x000F) << 4) | (pnColorText & 0x000F)));
-}
 
 void point(int x, int y) {
 	COORD position = { x,y }; //позиция x и y
@@ -34,3 +30,7 @@ bool end(int x, int y, int ex, int ey) {
 	return false;
 }
 
+void SetColor(int pnColorBackground, int pnColorText) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, (WORD)(((pnColorBackground & 0x000F) << 4) | (pnColorText & 0x000F)));
+}

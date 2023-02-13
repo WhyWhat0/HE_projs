@@ -3,7 +3,6 @@
 #include <iomanip>
 #include <math.h>
 #include<windows.h>
-#include"lab6.h"
 #include <fstream>
 using namespace std;
 
