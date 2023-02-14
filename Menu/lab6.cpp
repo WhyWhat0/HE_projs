@@ -1,6 +1,5 @@
 #include"lab6.h"
 
-
 int map[32] = {
 	0b1111'1111'1111'0111'1111'1111'1111'1111,
 	0b1111'1111'1111'0111'1111'1111'1111'1111,
@@ -17,13 +16,13 @@ int map[32] = {
 	0b1111'1100'1111'1111'1111'1111'1111'1111,
 	0b1111'1101'1111'1111'1111'1111'1111'1111,
 	0b1111'1100'0000'0000'0000'0000'0000'0000,
-	0b1111'1111'1111'1111'1111'1111'1111'1111,
-	0b1111'1111'1111'1111'1111'1111'1111'1111,
-	0b1111'1111'1111'1111'1111'1111'1111'1111,
-	0b1111'1111'1111'1111'1111'1111'1111'1111,
-	0b1111'1111'1111'1111'1111'1111'1111'1111,
-	0b1111'1111'1111'1111'1111'1111'1111'1111,
-	0b1111'1111'1111'1111'1111'1111'1111'1111,
+	0b1111'1111'1011'1111'1111'1111'1111'1111,
+	0b1111'1111'1011'1111'1111'1111'1111'1111,
+	0b1111'1111'1011'1111'1111'1111'1111'1111,
+	0b1111'1111'1011'1111'1111'1111'1111'1111,
+	0b1111'1111'1000'0000'1111'1111'1111'1111,
+	0b1111'1111'1011'1111'1111'1111'1111'1111,
+	0b1111'1111'1000'0000'0000'1111'1111'1111,
 	0b1111'1111'1111'1111'1111'1111'1111'1111,
 	0b1111'1111'1111'1111'1111'1111'1111'1111,
 	0b1111'1111'1111'1111'1111'1111'1111'1111,
@@ -37,8 +36,10 @@ int map[32] = {
 };
 
 	int c, curs;
-	int nx, ny, nbx = 24, nby = 0, nex = 64, ney = 14;
+	int nx, ny;
+	int nbx = 24, nby = 0, nex = 64, ney = 14;
 	unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
+	ofstream fout("text.txt");          // поток для записи
 void lab6() {
 	system("cls");
 	for (ny = 0; ny < 32; ny++) {
@@ -47,6 +48,10 @@ void lab6() {
 				SetColor(7, 7);
 				cout << "WW";
 			}
+			/*else if (nx == nbx && ny == nby || nx == nex && ny == ney) {
+				SetColor(3, 3);
+				cout << "  ";
+			}*/
 			else {
 				SetColor(0, 15);
 				cout << "  ";
@@ -63,39 +68,41 @@ void lab6() {
 			curs = _getch();
 			switch (curs) {
 			case 72:
-				if (!end(nx, ny - 1, nex, ney) and !wall(nx, ny - 1, map))
-					ny -= 1; break;
+				ny -= 1;
+				break;
 			case 80:
-				if (!end(nx, ny + 1, nex, ney) and !wall(nx, ny + 1, map))
-					ny += 1; break;
+				ny += 1;
+				break;
 			case 75:
-				if (!end(nx - 1, ny, nex, ney) and !wall(nx - 1, ny, map))
-					nx -= 1; break;
+				nx -= 1;
+				break;
 			case 77:
-				if (!end(nx + 1, ny, nex, ney) and !wall(nx + 1, ny, map))
-					nx += 1; break;
+				nx += 1;
+				break;
 			}
+			if (nx != nex && ny != ney) check_wall(nx, ny, map, curs);
 		}
 		else {
 			switch (c) {
 			case 119:
-				if (!end(nx, ny - 1, nex, ney) and !wall(nx, ny - 1, map))
-					ny -= 1; break;
+				ny -= 1; break;
 			case 115:
-				if (!end(nx, ny + 1, nex, ney) and !wall(nx, ny + 1, map))
-					ny += 1; break;
+				ny += 1; break;
 			case 97:
-				if (!end(nx - 1, ny, nex, ney) and !wall(nx - 1, ny, map))
-					nx -= 1; break;
+				nx -= 1; break;
 			case 100:
-				if (!end(nx + 1, ny, nex, ney) and !wall(nx + 1, ny, map))
-					nx += 1; break;
+				nx += 1; break;
+
 			default:
 				Beep(400, 50);
 			}
+			if (nx != nex && ny != ney) check_wall(nx, ny, map, c);
 		}
-	} while (c != 27);
-	system("cls");
+		fout << nx << "  " << ny << endl;
+	} while (c != 27 && !end(nx, ny, nex, ney));
+	fout.close();
 	SetColor(0, 15);
+	system("cls");
+	
 
 }
