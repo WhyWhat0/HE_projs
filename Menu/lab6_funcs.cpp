@@ -39,8 +39,8 @@ bool end(int x, int y, int ex, int ey) {
 		SetColor(5, 15);
 		system("cls");		
 		cout << "Easy win!!!" << endl;
-		system("pause");
-
+		SetColor(5, 5);
+		_getch();
 		return true;
 	}
 	return false;

@@ -35,11 +35,32 @@ int map[32] = {
 	0b1111'1111'1111'1111'1111'1111'1111'1111
 };
 
-	int c, curs;
-	int nx, ny;
-	int nbx = 24, nby = 0, nex = 64, ney = 14;
-	unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
-	ofstream fout("text.txt");          // поток для записи
+
+int c, curs, col_ways = 0, i = 0;
+int nx, ny;
+int nbx = 24, nby = 0, nex = 64, ney = 14;
+unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;	
+
+//int find_way(int nx, int ny) {
+//	fout << nx << "  " << ny << endl;
+//	if (nx == nex && ny == ney) {
+//		return 1;
+//	}
+//	if (!((Bit >> nx + 1) & map[ny])) {
+//		return find_way(nx + 1, ny);
+//	}
+//	if (!((Bit >> nx - 1) & map[ny])) {
+//		return find_way(nx - 1, ny);
+//	}
+//	if (!((Bit >> nx) & map[ny + 1])) {
+//		return find_way(nx, ny + 1);
+//	}
+//	if (!((Bit >> nx) & map[ny - 1])) {
+//		return find_way(nx, ny - 1);
+//	}
+//	return 0;
+//}
+
 void lab6() {
 	system("cls");
 	for (ny = 0; ny < 32; ny++) {
@@ -47,15 +68,14 @@ void lab6() {
 			if ((Bit >> nx) & map[ny]) {
 				SetColor(7, 7);
 				cout << "WW";
-			}
-			/*else if (nx == nbx && ny == nby || nx == nex && ny == ney) {
-				SetColor(3, 3);
-				cout << "  ";
-			}*/
-			else {
+			}	
+			else{
+				col_ways++;
 				SetColor(0, 15);
 				cout << "  ";
 			}
+			 
+			
 		}
 		cout << endl;
 	}
@@ -98,11 +118,8 @@ void lab6() {
 			}
 			if (nx != nex && ny != ney) check_wall(nx, ny, map, c);
 		}
-		fout << nx << "  " << ny << endl;
 	} while (c != 27 && !end(nx, ny, nex, ney));
-	fout.close();
 	SetColor(0, 15);
 	system("cls");
-	
 
 }
