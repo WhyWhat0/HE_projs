@@ -2,20 +2,20 @@
 
 
 void point(int x, int y) {
-	COORD position = { x,y }; //позиция x и y
+	COORD position = { x*2,y }; //позиция x и y
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(hConsole, position);
 }
 
 void move(int x, int y) {
 	SetColor(0, 15);
-	cout << " "; point(x, y);
+	cout << "  "; point(x, y);
 	SetColor(9, 9);
-	cout << "@"; point(x, y);
+	cout << "@@"; point(x, y);
 }
 void check_wall(int &x, int &y, int map[], int c) {
 	unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
-	if ((Bit >> x / 2) & map[y]){
+	if ((Bit >> x) & map[y]) {
 		Beep(400, 100);
 		switch (c) {
 		case 72:
@@ -48,4 +48,8 @@ bool end(int x, int y, int ex, int ey) {
 void SetColor(int pnColorBackground, int pnColorText) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, (WORD)(((pnColorBackground & 0x000F) << 4) | (pnColorText & 0x000F)));
+}
+bool stop(int nx, int ny) {
+	if (nx > -1 && nx<32 && ny>-1 && ny < 32) return true;
+	return false;
 }

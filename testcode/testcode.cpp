@@ -9,8 +9,7 @@
 
 using namespace std;
 
-int map[33] = {
-	0b1111'1111'1111'1111'1111'1111'1111'1111,
+int map[32] = {
 	0b1111'1111'1111'0111'1111'1111'1111'1111,
 	0b1111'1111'1111'0111'1111'1111'1111'1111,
 	0b1111'1111'1111'0111'1111'1111'1111'1111,
@@ -44,32 +43,60 @@ int map[33] = {
 	0b1111'1111'1111'1111'1111'1111'1111'1111,
 	0b1111'1111'1111'1111'1111'1111'1111'1111
 };
-int c, curs, col_ways = 0, i = 0;
+int c, curs, col_ways = 5, i = 0;
 int nx, ny;
-int nbx =  12, nby = 1, nex = 12, ney = 15;
+int nbx =  12, nby = 0, nex = 10, ney = 10;
 unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 
-int find_way(int nx, int ny) {
-	cout << !((Bit >> nx + 1) & map[ny]) << !((Bit >> nx - 1) & map[ny]) << !((Bit >> nx) & map[ny+1]) << !((Bit >> nx) & map[ny-1]) << endl;
-	if (nx == nex && ny == ney) {
-		return 1;
-	}
-	if (!((Bit >> nx + 1) & map[ny])) {
-		return find_way(nx + 1, ny);
-	}
-	if (!((Bit >> nx - 1) & map[ny])) {
-		return find_way(nx - 1, ny);
-	}
-	if (!((Bit >> nx) & map[ny + 1])) {
-		return find_way(nx, ny + 1);
-	}
-	if (!((Bit >> nx) & map[ny - 1])) {
-		return find_way(nx, ny - 1);
+struct block {
+	int x;
+	int y;
+};
+
+block* visited = new block[col_ways];
+
+bool stop(int nx, int ny) {
+	if (nx > -1 && nx<32 && ny>-1 && ny < 32) return false;
+	return true;
+}
+
+bool is_visited(int nx, int ny, block *visited, int col_ways) {
+	for (i = 0;i < col_ways;i++) if (visited[i].x == nx && visited[i].y == ny) return true;
+	return false;
+}
+
+void out_vis(block *visited, int col_ways){
+	for (int i = 0; i< col_ways; i++) cout << i+1 << ") " << visited[i].x << " " << visited[i].y << ", ";
+}
+
+int find_way(int nx, int ny, block **visited, int i = 0) {
+	cout << !((Bit >> nx + 1) & map[ny]) << !((Bit >> nx - 1) & map[ny]) << !((Bit >> nx) & map[ny + 1]) << !((Bit >> nx) & map[ny - 1]) << "    " << nx << " " << ny << "   " <<  endl; out_vis(*visited, col_ways); cout << endl;
+
+	Sleep(500);
+	cout << i << endl;
+	if (!stop(nx, ny) && !is_visited(nx, ny, *visited, col_ways)) {
+		visited[i]->x = nx; visited[i]->y = ny; 
+		//cout << "." <<visited[i - 1]->x <<"." << " " << i << " ";
+		if (nx == nex && ny == ney) {
+			return 1;
+		}
+		if (!((Bit >> nx + 1) & map[ny])) {
+			return find_way(nx + 1, ny, visited, i+1);
+		}
+		if (!((Bit >> nx - 1) & map[ny])) {
+			return find_way(nx - 1, ny, visited, i+1);
+		}
+		if (!((Bit >> nx) & map[ny + 1])) {
+			return find_way(nx, ny + 1, visited, i+1);
+		}
+		if (!((Bit >> nx) & map[ny - 1])) {
+			return find_way(nx, ny - 1, visited, i+1);
+		}
 	}
 	return 0;
 }
 int main()
 {
-	cout << find_way(nbx, nby);
+	cout << find_way(nbx, nby, &visited);
     return 0;
 }
