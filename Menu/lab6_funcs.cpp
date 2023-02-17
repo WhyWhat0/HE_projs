@@ -1,5 +1,9 @@
 #include"lab6_funcs.h"
 
+struct block {
+	int x;
+	int y;
+};
 
 void point(int x, int y) {
 	COORD position = { x*2,y }; //позиция x и y
@@ -45,11 +49,49 @@ bool end(int x, int y, int ex, int ey) {
 	}
 	return false;
 }
+
 void SetColor(int pnColorBackground, int pnColorText) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, (WORD)(((pnColorBackground & 0x000F) << 4) | (pnColorText & 0x000F)));
 }
 bool stop(int nx, int ny) {
-	if (nx > -1 && nx<32 && ny>-1 && ny < 32) return true;
+	if (nx > -1 && nx<32 && ny>-1 && ny < 32) return false;
+	return true;
+}
+
+bool is_visited(int nx, int ny, block* visited, int col_ways) {
+	for (int i = 0;i < col_ways;i++) if (visited[i].x == nx && visited[i].y == ny) return true;
 	return false;
+}
+
+int find_way(int nx, int ny, block* visited, int *map, int col_ways, int i) {
+	
+	unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
+	cout << "основное: " << i << " вызов (RLDU) " << !((Bit >> nx + 1) & map[ny]) <<
+		!((Bit >> nx - 1) & map[ny]) << !((Bit >> nx) & map[ny + 1]) <<
+		!((Bit >> nx) & map[ny - 1]) << "    " << nx << " " << ny << "   " << stop(nx, ny) << endl; //out_vis(visited, col_ways); cout << endl;
+	//Sleep(500);
+	if (nx == 0 && ny == 14) {
+		return 1;
+	}
+	if (!stop(nx, ny)) {
+		visited[i].x = nx; visited[i].y = ny;
+
+		cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
+		
+		if (!((Bit >> nx + 1) & map[ny]) && !is_visited(nx + 1, ny, visited, col_ways)) {
+			if (find_way(nx + 1, ny, visited, map, col_ways, i + 1)) return 1;;
+		}
+		if (!((Bit >> nx - 1) & map[ny]) && !is_visited(nx - 1, ny, visited, col_ways)) {
+			if(find_way(nx - 1, ny, visited, map, col_ways, i + 1)) return 1;
+		}
+		if (!((Bit >> nx) & map[ny + 1]) && !is_visited(nx, ny + 1, visited, col_ways)) {
+			if(find_way(nx, ny + 1, visited, map, col_ways, i + 1)) return 1;
+		}
+		if (!((Bit >> nx) & map[ny - 1]) && !is_visited(nx, ny - 1, visited, col_ways)) {
+			if(find_way(nx, ny - 1, visited, map, col_ways,  i + 1)) return 1;
+		}
+	}
+	
+	return 0;
 }
