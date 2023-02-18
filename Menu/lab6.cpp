@@ -107,10 +107,10 @@ void lab6() {
 		}
 	} while (c != 27 && !end(nx, ny, nex, ney));
 	if (c == 27) {
-		find_way(nx, ny, visited, map, col_ways);
+		find_way(nx, ny, visited, map, col_ways, nex, ney);
 		mark(visited, nex, ney);
 		_getch();
 		SetColor(0, 15);
-		system("cls");out_vis(visited, col_ways);
+		system("cls");
 	}
 }

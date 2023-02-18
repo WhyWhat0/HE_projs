@@ -43,6 +43,7 @@ bool end(int x, int y, int ex, int ey) {
 		SetColor(5, 15);
 		system("cls");		
 		cout << "Easy win!!!" << endl;
+		SetColor(0, 15);
 		_getch();
 		return true;
 	}
@@ -62,20 +63,15 @@ bool is_visited(int nx, int ny, block* visited, int col_ways) {
 	for (int i = 0;i < col_ways;i++) if (visited[i].x == nx && visited[i].y == ny) return true;
 	return false;
 }
-void out_vis(block* visited, int col_ways) {
-	ofstream f("text.txt");
-	for (int i = 0; i < col_ways; i++) f << i + 1 << ") " << visited[i].x << " " << visited[i].y << endl;
-	f.close();
-}
 
-int find_way(int nx, int ny, block* visited, int *map, int col_ways, int i = 0) {
+int find_way(int nx, int ny, block* visited, int *map, int col_ways, int nex, int ney, int i = 0) {
 	visited[i].x = nx; visited[i].y = ny; i++;
 	unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 	/*cout << "основное: " << i << " вызов (RLDU) " << !((Bit >> nx + 1) & map[ny]) <<
 		!((Bit >> nx - 1) & map[ny]) << !((Bit >> nx) & map[ny + 1]) <<
 		!((Bit >> nx) & map[ny - 1]) << "    " << nx << " " << ny << "   " << stop(nx, ny) << endl;*/ //out_vis(visited, col_ways); cout << endl;
 	//Sleep(500);
-	if (nx == 0 && ny == 14) {
+	if (nx == nex && ny == ney) {
 		return 1;
 	}
 	if (!stop(nx, ny)) {
@@ -83,16 +79,16 @@ int find_way(int nx, int ny, block* visited, int *map, int col_ways, int i = 0) 
 		//cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
 		
 		if (!((Bit >> nx + 1) & map[ny]) && !is_visited(nx + 1, ny, visited, col_ways)) {
-			if (find_way(nx + 1, ny, visited, map, col_ways, i)) return 1;
+			if (find_way(nx + 1, ny, visited, map, col_ways, nex, ney, i)) return 1;
 		}
 		if (!((Bit >> nx - 1) & map[ny]) && !is_visited(nx - 1, ny, visited, col_ways)) {
-			if(find_way(nx - 1, ny, visited, map, col_ways, i)) return 1;
+			if(find_way(nx - 1, ny, visited, map, col_ways, nex, ney, i)) return 1;
 		}
 		if (!((Bit >> nx) & map[ny + 1]) && !is_visited(nx, ny + 1, visited, col_ways)) {
-			if(find_way(nx, ny + 1, visited, map, col_ways, i)) return 1;
+			if(find_way(nx, ny + 1, visited, map, col_ways, nex, ney, i)) return 1;
 		}
 		if (!((Bit >> nx) & map[ny - 1]) && !is_visited(nx, ny - 1, visited, col_ways)) {
-			if(find_way(nx, ny - 1, visited, map, col_ways, i)) return 1;
+			if(find_way(nx, ny - 1, visited, map, col_ways, nex, ney, i)) return 1;
 		}
 	}
 	
