@@ -64,7 +64,7 @@ bool is_visited(int nx, int ny, block* visited, int col_ways) {
 	return false;
 }
 
-int find_way(int nx, int ny, block* visited, int *map, int col_ways, int i) {
+int find_way(int nx, int ny, block* visited, int *map, int col_ways, int &i) {
 	
 	unsigned int Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 	cout << "основное: " << i << " вызов (RLDU) " << !((Bit >> nx + 1) & map[ny]) <<
@@ -75,21 +75,21 @@ int find_way(int nx, int ny, block* visited, int *map, int col_ways, int i) {
 		return 1;
 	}
 	if (!stop(nx, ny)) {
-		visited[i].x = nx; visited[i].y = ny;
+		visited[i].x = nx; visited[i].y = ny; i++;
 
 		cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
 		
 		if (!((Bit >> nx + 1) & map[ny]) && !is_visited(nx + 1, ny, visited, col_ways)) {
-			if (find_way(nx + 1, ny, visited, map, col_ways, i + 1)) return 1;;
+			if (find_way(nx + 1, ny, visited, map, col_ways, i)) return 1;;
 		}
 		if (!((Bit >> nx - 1) & map[ny]) && !is_visited(nx - 1, ny, visited, col_ways)) {
-			if(find_way(nx - 1, ny, visited, map, col_ways, i + 1)) return 1;
+			if(find_way(nx - 1, ny, visited, map, col_ways, i)) return 1;
 		}
 		if (!((Bit >> nx) & map[ny + 1]) && !is_visited(nx, ny + 1, visited, col_ways)) {
-			if(find_way(nx, ny + 1, visited, map, col_ways, i + 1)) return 1;
+			if(find_way(nx, ny + 1, visited, map, col_ways, i)) return 1;
 		}
 		if (!((Bit >> nx) & map[ny - 1]) && !is_visited(nx, ny - 1, visited, col_ways)) {
-			if(find_way(nx, ny - 1, visited, map, col_ways,  i + 1)) return 1;
+			if(find_way(nx, ny - 1, visited, map, col_ways,  i)) return 1;
 		}
 	}
 	

@@ -108,6 +108,7 @@ void lab6() {
 	} while (c != 27 && !end(nx, ny, nex, ney));
 	SetColor(0, 15);
 	system("cls");
-	cout << find_way(nx, ny, visited, map, col_ways, 0);
+	int i = 0;
+	cout << find_way(nx, ny, visited, map, col_ways, i);
 
 }
