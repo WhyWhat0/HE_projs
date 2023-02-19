@@ -39,7 +39,6 @@ void check_wall(int &x, int &y, int map[], int c) {
 }
 bool end(int x, int y, int ex, int ey) {
 	if ((x == ex) and (y = ey)) {
-		point(64, 14);
 		SetColor(5, 15);
 		system("cls");		
 		cout << "Easy win!!!" << endl;

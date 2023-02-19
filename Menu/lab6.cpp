@@ -20,7 +20,7 @@ int map[32] = {
 	0b1111'1110'1111'1111'1111'1111'1111'1111,//11
 	0b1111'1100'1111'1111'1111'1111'1111'1111,//12
 	0b1111'1101'1111'1111'1111'1111'1111'1111,//13
-	0b0000'0000'0000'0000'0000'0000'0000'0001,//14
+	0b0000'0000'0000'0000'0000'0000'0000'0011,//14
 	0b1111'1111'1011'1111'1111'1111'1111'1111,//15
 	0b1111'1111'1011'1111'1111'1111'1111'1111,//16
 	0b1111'0000'0011'1111'1111'1111'1111'1111,//17
@@ -56,6 +56,11 @@ void lab6() {
 				SetColor(7, 7);
 				cout << "WW";
 			}	
+			//nx == nbx && ny == nby ||
+			else if (nx == nex && ny == ney) {
+				SetColor(4, 4);
+				cout << "  ";
+			} 
 			else{
 				col_ways++;
 				SetColor(0, 15);
@@ -87,7 +92,7 @@ void lab6() {
 				nx += 1;
 				break;
 			}
-			if (nx != nex && ny != ney) check_wall(nx, ny, map, curs);
+			/*if (nx != nex && ny != ney)*/ check_wall(nx, ny, map, curs);
 		}
 		else {
 			switch (c) {
@@ -99,11 +104,10 @@ void lab6() {
 				nx -= 1; break;
 			case 100:
 				nx += 1; break;
-
 			default:
-				Beep(400, 50);
+				Beep(400, 50); break;
 			}
-			if (nx != nex && ny != ney) check_wall(nx, ny, map, c);
+			/*if (nx != nex && ny != ney)*/ check_wall(nx, ny, map, c);
 		}
 	} while (c != 27 && !end(nx, ny, nex, ney));
 	if (c == 27) {
