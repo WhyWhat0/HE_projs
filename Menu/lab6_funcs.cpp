@@ -53,10 +53,7 @@ void SetColor(int pnColorBackground, int pnColorText) {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, (WORD)(((pnColorBackground & 0x000F) << 4) | (pnColorText & 0x000F)));
 }
-bool stop(int nx, int ny) {
-	if (nx > -1 && nx<32 && ny>-1 && ny < 32) return false;
-	return true;
-}
+
 
 bool is_visited(int nx, int ny, block* visited, int col_ways) {
 	for (int i = 0;i < col_ways;i++) if (visited[i].x == nx && visited[i].y == ny) return true;
@@ -73,7 +70,7 @@ int find_way(int nx, int ny, block* visited, int *map, int col_ways, int nex, in
 	if (nx == nex && ny == ney) {
 		return 1;
 	}
-	if (!stop(nx, ny)) {
+	if (!((nx == nex) && (ny = ney))) {
 
 		//cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
 		

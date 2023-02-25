@@ -1,8 +1,3 @@
-struct block {
-	int x;
-	int y;
-};
-
 #include"lab6.h"
 
 int map[32] = {
@@ -92,7 +87,7 @@ void lab6() {
 				nx += 1;
 				break;
 			}
-			/*if (nx != nex && ny != ney)*/ check_wall(nx, ny, map, curs);
+			check_wall(nx, ny, map, curs);
 		}
 		else {
 			switch (c) {
@@ -107,7 +102,7 @@ void lab6() {
 			default:
 				Beep(400, 50); break;
 			}
-			/*if (nx != nex && ny != ney)*/ check_wall(nx, ny, map, c);
+			check_wall(nx, ny, map, c);
 		}
 	} while (c != 27 && !end(nx, ny, nex, ney));
 	if (c == 27) {
