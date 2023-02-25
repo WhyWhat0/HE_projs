@@ -70,7 +70,7 @@ int find_way(int nx, int ny, block* visited, int *map, int col_ways, int nex, in
 	if (nx == nex && ny == ney) {
 		return 1;
 	}
-	if (!((nx == nex) && (ny = ney))) {
+	else {
 
 		//cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
 		
