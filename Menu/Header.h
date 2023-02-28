@@ -1,7 +1,7 @@
 #include <conio.h>
 #include <iostream>
 #include <iomanip>
-#include <math.h>
+#include <cmath>
 #include<windows.h>
 #include <fstream>
 #include<string>

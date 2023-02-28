@@ -65,7 +65,7 @@ void lab6() {
 		}
 		cout << endl;
 	}
-	int* visited = new int[col_ways];
+	uint* visited = new uint[col_ways];
 	nx = nbx; ny = nby;
 	do {
 		move(nx, ny);
@@ -105,8 +105,9 @@ void lab6() {
 				Beep(400, 50); break;
 			}
 		}
-		f << nx << " " << ny <<" "  << endl << "\n\n";
+		
 	} while (c != 27 && !((nx == nex) && (ny == ney)));
+	for (int i = 0;i<sizeof(visited); i ++) f << visited[i] << endl;
 	if (c == 27) {
 		find_way(nx, ny, visited, map, col_ways, nex, ney);
 		//mark(visited, nex, ney);

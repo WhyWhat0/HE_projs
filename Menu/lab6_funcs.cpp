@@ -34,13 +34,10 @@ void move(int x, int y) {
 //	return false;
 //}
 
-int find_way(int nx, int ny, int* visited, int *map, int col_ways, int nex, int ney, int i = 0) {
+int find_way(int nx, int ny, uint* visited, int *map, int col_ways, int nex, int ney, int i = 0) {
 	uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 	visited[i] |= Bit >> nx; i++;
 
-	SetColor(2, 2);
-	point(nx, ny);
-	cout << "  ";
 	/*cout << "основное: " << i << " вызов (RLDU) " << !((Bit >> nx + 1) & map[ny]) <<
 		!((Bit >> nx - 1) & map[ny]) << !((Bit >> nx) & map[ny + 1]) <<
 		!((Bit >> nx) & map[ny - 1]) << "    " << nx << " " << ny << "   " << stop(nx, ny) << endl;*/ //out_vis(visited, col_ways); cout << endl;
@@ -65,16 +62,14 @@ int find_way(int nx, int ny, int* visited, int *map, int col_ways, int nex, int 
 		}
 		
 	}
-	SetColor(0, 15);
-	point(nx, ny); 
-	cout << "  ";
 	return 0;
 }
 
-void mark(int* visited, int nex, int ney) {
+void mark(uint* visited, int nex, int ney) {
 	SetColor(2, 2);
-	int x=0, y = 0; 
+	int x = 0, y = 0;
 	while (!(x == nex && y == ney)) {
+		x = log2(visited[y]);
 		Sleep(10);
 		point(x, y);
 		cout << "  ";
