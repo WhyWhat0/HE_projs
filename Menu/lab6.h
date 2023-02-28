@@ -1,10 +1,7 @@
 #include "Header.h"
-struct block {
-	int x;
-	int y;
-};
-void point(int x, int y); void move(int x, int y); void check_wall(int &x, int &y, int map[], int c); bool end(int x, int y, int ex, int ey); 
-void SetColor(int pnColorBackground, int pnColorText); bool stop(int nx, int ny);
-bool is_visited(int nx, int ny, block* visited, int col_ways); bool stop(int nx, int ny);
-int find_way(int nx, int ny, block* visited, int* map, int ways_col, int nex, int ney, int i = 0); 
-void mark(block* visited, int nex, int ney);
+
+void point(int x, int y); void move(int x, int y); void check_wall(int &x, int &y, int map[], int c); 
+void SetColor(int pnColorBackground, int pnColorText);
+bool is_visited(int nx, int ny, int* visited, int col_ways);bool edge(int x, int y, const int ex, const int ey);
+int find_way(int nx, int ny, int* visited, int* map, int ways_col, const int nex, const int ney, int i = 0); 
+void mark(int* visited, int nex, int ney);

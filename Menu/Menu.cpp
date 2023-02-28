@@ -1,7 +1,7 @@
 ﻿#include "Header.h" //Заголовки функций для лабораторных работ
 
 int main(){
-	int i; // для выбора пункта меню
+	char i; // для выбора пункта меню
 	setlocale(LC_ALL, "Russian");
 	while (true) {
 		system("cls"); // очистка экрана
@@ -14,15 +14,17 @@ int main(){
 		cin >> i;
 		system("cls");
 		switch (i){ // управление выбором в меню
-		case 1:
+		case '1':
 			menu1(); break;			
-		case 2:
+		case '2':
 			menu2(); break;			
-		case 0: 
+		case '0':
 			return 0;
 		default:
 			cout << "Ошибочный ввод. Нажмите любую кнопку для продолжения...";
+			_getch();
 			break;
+
 		}		
 	}
 } 

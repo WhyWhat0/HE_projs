@@ -225,5 +225,6 @@ void lab5()
 		unsigned short col = arr[i] & mask;
 		if (col == mask || col == arr[i]) cout << arr[i] << " ";
 	}
+	_getch();
 }
 
