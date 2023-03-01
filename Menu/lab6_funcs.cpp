@@ -28,20 +28,9 @@ void move(int x, int y) {
 
 
 
-
-//bool is_visited(int nx, int ny, block* visited, int col_ways) {
-//	for (int i = 0;i < col_ways;i++) if (visited[i].x == nx && visited[i].y == ny) return true;
-//	return false;
-//}
-
 int find_way(int nx, int ny, uint* visited, int *map, int col_ways, int nex, int ney, int i = 0) {
 	uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
-	visited[i] |= Bit >> nx; i++;
-
-	/*cout << "основное: " << i << " вызов (RLDU) " << !((Bit >> nx + 1) & map[ny]) <<
-		!((Bit >> nx - 1) & map[ny]) << !((Bit >> nx) & map[ny + 1]) <<
-		!((Bit >> nx) & map[ny - 1]) << "    " << nx << " " << ny << "   " << stop(nx, ny) << endl;*/ //out_vis(visited, col_ways); cout << endl;
-	//Sleep(500);
+	visited[i] |= (Bit >> nx); i++;
 	if (nx == nex && ny == ney) {
 		return 1;
 	}

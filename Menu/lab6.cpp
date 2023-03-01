@@ -42,7 +42,6 @@ int nx, ny;
 const int nbx = 12, nby = 0, nex = 10, ney = 31;
 uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;	
 const int Rows = 32, Cols = 32;
-ofstream f("text.txt");
 void lab6() {
 	system("cls");
 	for (ny = 0; ny < Rows; ny++) {
@@ -107,7 +106,8 @@ void lab6() {
 		}
 		
 	} while (c != 27 && !((nx == nex) && (ny == ney)));
-	for (int i = 0;i<sizeof(visited); i ++) f << visited[i] << endl;
+	ofstream f("text.txt");
+	for (int i = 0;i<sizeof(visited); i ++) f << visited[i] << endl; f.close();
 	if (c == 27) {
 		find_way(nx, ny, visited, map, col_ways, nex, ney);
 		//mark(visited, nex, ney);
@@ -122,5 +122,4 @@ void lab6() {
 		SetColor(0, 15);
 		_getch();
 	}
-	f.close();
 }
