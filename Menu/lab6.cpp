@@ -88,6 +88,11 @@ void lab6() {
 		}
 		else {
 			switch (c) {
+			case 63:
+				find_way(nx, ny, visited, map, col_ways, nex, ney);
+				_getch();
+				system("cls");
+				break;
 			case 119:
 				if (((Bit >> nx) & map[ny - 1]) || edge(nx, ny - 1, Cols, Rows)) Beep(400, 100); else ny -= 1;
 				break;
@@ -106,13 +111,11 @@ void lab6() {
 		}
 		
 	} while (c != 27 && !((nx == nex) && (ny == ney)));
+	SetColor(0, 15);
 	ofstream f("text.txt");
 	for (int i = 0;i<sizeof(visited); i ++) f << visited[i] << endl; f.close();
-	if (c == 27) {
-		find_way(nx, ny, visited, map, col_ways, nex, ney);
-		//mark(visited, nex, ney);
-		_getch();
-		SetColor(0, 15);
+	
+    if (c == 27) {
 		system("cls");
 	}
 	else {
