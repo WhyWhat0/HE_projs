@@ -36,12 +36,14 @@ int map[32] = {
 };
 
 
-
-int c, curs, col_ways = 1, i = 0;
+ofstream f("text.txt");
+int c, curs, i = 0;
 int nx, ny;
 const int nbx = 12, nby = 0, nex = 10, ney = 31;
-uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;	
+uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 const int Rows = 32, Cols = 32;
+uint* visited = new uint[Rows];
+
 void lab6() {
 	system("cls");
 	for (ny = 0; ny < Rows; ny++) {
@@ -55,7 +57,6 @@ void lab6() {
 				cout << "  ";
 			} 
 			else{
-				col_ways++;
 				SetColor(0, 15);
 				cout << "  ";
 			}
@@ -64,7 +65,7 @@ void lab6() {
 		}
 		cout << endl;
 	}
-	uint* visited = new uint[col_ways];
+	
 	nx = nbx; ny = nby;
 	do {
 		move(nx, ny);
@@ -89,7 +90,10 @@ void lab6() {
 		else {
 			switch (c) {
 			case 63:
-				find_way(nx, ny, visited, map, col_ways, nex, ney);
+				memset(visited, 0, sizeof(uint) * Rows);
+				find_way(nx, ny, visited, map, Rows, nex, ney);
+				for (int i = 0;i < sizeof(visited); i++) f << visited[i] << endl; f.close();
+				delete[] visited;
 				_getch();
 				system("cls");
 				break;
@@ -112,8 +116,6 @@ void lab6() {
 		
 	} while (c != 27 && !((nx == nex) && (ny == ney)));
 	SetColor(0, 15);
-	ofstream f("text.txt");
-	for (int i = 0;i<sizeof(visited); i ++) f << visited[i] << endl; f.close();
 	
     if (c == 27) {
 		system("cls");

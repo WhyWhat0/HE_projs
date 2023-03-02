@@ -28,27 +28,27 @@ void move(int x, int y) {
 
 
 
-int find_way(int nx, int ny, uint* visited, int *map, int col_ways, int nex, int ney, int i = 0) {
+int find_way(int nx, int ny, uint* visited, int *map, int nex, int ney, int i = 0) {
 	uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 	visited[i] |= (Bit >> nx); i++;
 	if (nx == nex && ny == ney) {
 		return 1;
 	}
-	else {
+	else if(ny>=0) {
 
-		//cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
-		if (!((Bit >> nx) & map[ny + 1]) && !(visited[ny + 1] & (Bit >> nx))) {
-			if (find_way(nx, ny + 1, visited, map, col_ways, nex, ney, i)) return 1;
-		}
-		if (!((Bit >> nx) & map[ny - 1]) && !(visited[ny - 1] & (Bit >> nx))) {
-			if (find_way(nx, ny - 1, visited, map, col_ways, nex, ney, i)) return 1;
-		}
-		if (!((Bit >> nx + 1) & map[ny]) && !(visited[ny] & (Bit >> nx+1))) {
-			if (find_way(nx + 1, ny, visited, map, col_ways, nex, ney, i)) return 1;
-		}
-		if (!((Bit >> nx - 1) & map[ny]) && !(visited[ny] & (Bit >> nx-1))) {
-			if(find_way(nx - 1, ny, visited, map, col_ways, nex, ney, i)) return 1;
-		}
+			//cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
+			if (!((Bit >> nx) & map[ny + 1]) && !(visited[ny + 1] & (Bit >> nx))) {
+				if (find_way(nx, ny + 1, visited, map, nex, ney, i)) return 1;
+			}
+			if (!((Bit >> nx) & map[ny - 1]) && !(visited[ny - 1] & (Bit >> nx))) {
+				if (find_way(nx, ny - 1, visited, map, nex, ney, i)) return 1;
+			}
+			if (!((Bit >> nx + 1) & map[ny]) && !(visited[ny] & (Bit >> nx+1))) {
+				if (find_way(nx + 1, ny, visited, map, nex, ney, i)) return 1;
+			}
+			if (!((Bit >> nx - 1) & map[ny]) && !(visited[ny] & (Bit >> nx-1))) {
+				if(find_way(nx - 1, ny, visited, map, nex, ney, i)) return 1;
+			}
 		
 	}
 	return 0;
