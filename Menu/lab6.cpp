@@ -128,3 +128,4 @@ void lab6() {
 		_getch();
 	}
 }
+//qweetrt
