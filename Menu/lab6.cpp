@@ -37,12 +37,12 @@ int map[32] = {
 
 
 ofstream f("text.txt");
-int c, curs, i = 0;
+int c, i = 0;
 int nx, ny;
 const int nbx = 12, nby = 0, nex = 10, ney = 31;
 uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 const int Rows = 32, Cols = 32;
-uint* visited = new uint[Rows];
+uint* visited;
 
 void lab6() {
 	system("cls");
@@ -67,12 +67,13 @@ void lab6() {
 	}
 	
 	nx = nbx; ny = nby;
+
 	do {
 		move(nx, ny);
 		c = _getch();
 		if (c == 224) {
-			curs = _getch();
-			switch (curs) {
+			c = _getch();
+			switch (c) {
 			case 72:
 				if (((Bit >> nx) & map[ny - 1]) || edge(nx, ny - 1, Cols, Rows)) Beep(400, 100); else ny -= 1;
 				break;
@@ -90,12 +91,13 @@ void lab6() {
 		else {
 			switch (c) {
 			case 63:
-				memset(visited, 0, sizeof(uint) * Rows);
-				find_way(nx, ny, visited, map, Rows, nex, ney);
-				for (int i = 0;i < sizeof(visited); i++) f << visited[i] << endl; f.close();
+				visited = new uint[Rows];
+				f << "       " << sizeof(visited) << endl;
+				memset(visited, 0, sizeof(uint) * Rows);	
+				f << "       " << sizeof(visited) << endl;
+				find_way(nx, ny);
+				point(nx, ny);
 				delete[] visited;
-				_getch();
-				system("cls");
 				break;
 			case 119:
 				if (((Bit >> nx) & map[ny - 1]) || edge(nx, ny - 1, Cols, Rows)) Beep(400, 100); else ny -= 1;
@@ -128,4 +130,41 @@ void lab6() {
 		_getch();
 	}
 }
-//qweetrt
+
+int find_way(int nx, int ny) {
+	for (int i = 0;i < sizeof(visited); i++) f << visited[i] << " ";
+	f << endl;
+	SetColor(2, 2);
+	point(nx, ny);
+	cout << "  ";
+	visited[ny] |= Bit >> nx;
+	if (nx == nex && ny == ney) {
+		return 99;
+	}
+	if (ny - 1 <= Rows) {
+		//cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
+		if (!((Bit >> nx) & map[ny + 1]) && !(visited[ny + 1] & (Bit >> nx))) {
+			if (find_way(nx, ny + 1)) return 1;
+		}
+	}
+	if (ny - 1 >= 0) {
+		if (!((Bit >> nx) & map[ny - 1]) && !(visited[ny - 1] & (Bit >> nx))) {
+			if (find_way(nx, ny - 1)) return 1;
+		}
+	}
+	if (nx + 1 <= Cols) {
+		if (!((Bit >> nx + 1) & map[ny]) && !(visited[ny] & (Bit >> nx + 1))) {
+			if (find_way(nx + 1, ny)) return 1;
+		}
+	}
+	if (nx - 1 >= 0) {
+		if (!((Bit >> nx - 1) & map[ny]) && !(visited[ny] & (Bit >> nx - 1))) {
+			if (find_way(nx - 1, ny)) return 1;
+		}
+	}
+	SetColor(0, 15);
+	point(nx, ny);
+	cout << "  ";
+	
+	return 0;
+}
