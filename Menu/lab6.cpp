@@ -107,8 +107,9 @@ void lab6() {
 				shvisited = new uint[Rows];
 				memset(visited, 0, sizeof(uint) * Rows);
 				find_short_way(nx, ny);
+				paint();
 				for (int i = 0;i < 32; i++) {
-					f << bitset<32>(shvisited[i]) << endl;
+					f << bitset<32>(visited[i]) << endl;
 				}
 				f << endl;
 				f.close();
@@ -195,15 +196,6 @@ int find_short_way(int nx, int ny, int pway) {
 			shvisited = new uint[Rows];
 			for (i = 0; i < Rows; i++) {
 				shvisited[i] = visited[i];
-				if (shvisited[i] != 0) {
-					for (int j = 0;j < Cols; j++) {					
-						if ((Cols - log_2(shvisited[i]) + 1) & (Bit >> j)) {
-							SetColor(2, 2);
-							point((Cols - log_2(shvisited[i]) + 1) & (Bit >> j), i);
-							cout << "  ";
-						}
-					}
-				}
 			}
 		}
 		visited[ney] -= Bit >> nex;
@@ -236,4 +228,18 @@ int find_short_way(int nx, int ny, int pway) {
 	point(nx, ny);
 	cout << "  ";
 	return k;
+}
+
+void paint() {
+	for (i = 0; i < Rows; i++) {
+		if (shvisited[i] != 0) {
+			for (int j = 0;j < Cols; j++) {
+				if (shvisited[i] & (Bit >> j)) {
+					SetColor(2, 2);
+					point(j, i);
+					cout << "  ";
+				}
+			}
+		}
+	}
 }

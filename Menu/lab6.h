@@ -5,6 +5,7 @@ void SetColor(int pnColorBackground, int pnColorText);
 int find_way(int nx, int ny); 
 int find_short_way(int nx, int ny, int pway = 0);
 int log_2(uint a);
+void paint();
 typedef enum {
 	CL_BLACK,
 	CL_BLUE,
