@@ -35,14 +35,14 @@ int map[32] = {
 	0b1111'1111'1101'1111'1111'1111'1111'1111 //31
 };
 
-
-ofstream f("text.txt");
+ofstream f("inp.txt");
 int c, i = 0;
 int nx, ny;
 const int nbx = 12, nby = 0, nex = 10, ney = 31;
 uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 const int Rows = 32, Cols = 32;
-uint* visited;
+uint* visited; uint* shvisited;
+int way = Rows*Cols;
 
 void lab6() {
 	system("cls");
@@ -75,16 +75,16 @@ void lab6() {
 			c = _getch();
 			switch (c) {
 			case 72:
-				if (((Bit >> nx) & map[ny - 1]) || edge(nx, ny - 1, Cols, Rows)) Beep(400, 100); else ny -= 1;
+				if (((Bit >> nx) & map[ny - 1]) || ny - 1 <= 0) Beep(400, 100); else ny -= 1;
 				break;
 			case 80:
-				if (((Bit >> nx) & map[ny + 1]) || edge(nx, ny + 1, Cols, Rows)) Beep(400, 100); else ny += 1;
+				if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1;
 				break;
 			case 75:
-				if (((Bit >> nx - 1) & map[ny]) || edge(nx - 1, ny, Cols, Rows)) Beep(400, 100); else nx -= 1;
+				if (((Bit >> nx - 1) & map[ny]) || nx - 1 <= 0) Beep(400, 100); else nx -= 1;
 				break;
 			case 77:
-				if (((Bit >> nx + 1) & map[ny]) || edge(nx + 1, ny, Cols, Rows)) Beep(400, 100); else nx += 1;
+				if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1;
 				break;
 			}
 		}
@@ -92,24 +92,41 @@ void lab6() {
 			switch (c) {
 			case 63:
 				visited = new uint[Rows];
-				f << "       " << sizeof(visited) << endl;
-				memset(visited, 0, sizeof(uint) * Rows);	
-				f << "       " << sizeof(visited) << endl;
+				memset(visited, 0, sizeof(uint) * Rows);
 				find_way(nx, ny);
+				for (int i = 0;i < 32; i++) {
+					f << bitset<32>(visited[i]) << endl;
+				}
+				f << endl;
+				f.close();
 				point(nx, ny);
 				delete[] visited;
 				break;
+			case 64:
+				visited = new uint[Rows];
+				shvisited = new uint[Rows];
+				memset(visited, 0, sizeof(uint) * Rows);
+				find_short_way(nx, ny);
+				for (int i = 0;i < 32; i++) {
+					f << bitset<32>(shvisited[i]) << endl;
+				}
+				f << endl;
+				f.close();
+				point(nx, ny);
+				delete[] visited;
+				delete[] shvisited;
+				break;
 			case 119:
-				if (((Bit >> nx) & map[ny - 1]) || edge(nx, ny - 1, Cols, Rows)) Beep(400, 100); else ny -= 1;
+				if (((Bit >> nx) & map[ny - 1]) || ny - 1 <= 0) Beep(400, 100); else ny -= 1;
 				break;
 			case 115:
-				if (((Bit >> nx) & map[ny + 1]) || edge(nx, ny + 1, Cols, Rows)) Beep(400, 100); else ny += 1;
+				if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1;
 				break;
 			case 97:
-				if (((Bit >> nx - 1) & map[ny]) || edge(nx - 1, ny, Cols, Rows)) Beep(400, 100); else nx -= 1;
+				if (((Bit >> nx - 1) & map[ny]) || nx - 1 <= 0) Beep(400, 100); else nx -= 1;
 				break;
 			case 100:
-				if (((Bit >> nx + 1) & map[ny]) || edge(nx + 1, ny, Cols, Rows)) Beep(400, 100); else nx += 1;
+				if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1;
 				break;
 			default:
 				Beep(400, 50); break;
@@ -132,17 +149,20 @@ void lab6() {
 }
 
 int find_way(int nx, int ny) {
-	for (int i = 0;i < sizeof(visited); i++) f << visited[i] << " ";
-	f << endl;
+	
 	SetColor(2, 2);
 	point(nx, ny);
 	cout << "  ";
 	visited[ny] |= Bit >> nx;
 	if (nx == nex && ny == ney) {
-		return 99;
+		return 1;
 	}
-	if (ny - 1 <= Rows) {
-		//cout << "Доп. " << visited[i].x << " " << visited[i].y << "." << " " << i << " " << endl;
+	if (nx + 1 <= Cols) {
+		if (!((Bit >> nx + 1) & map[ny]) && !(visited[ny] & (Bit >> nx + 1))) {
+			if (find_way(nx + 1, ny)) return 1;
+		}
+	}
+	if (ny + 1 <= Rows) {
 		if (!((Bit >> nx) & map[ny + 1]) && !(visited[ny + 1] & (Bit >> nx))) {
 			if (find_way(nx, ny + 1)) return 1;
 		}
@@ -152,11 +172,7 @@ int find_way(int nx, int ny) {
 			if (find_way(nx, ny - 1)) return 1;
 		}
 	}
-	if (nx + 1 <= Cols) {
-		if (!((Bit >> nx + 1) & map[ny]) && !(visited[ny] & (Bit >> nx + 1))) {
-			if (find_way(nx + 1, ny)) return 1;
-		}
-	}
+	
 	if (nx - 1 >= 0) {
 		if (!((Bit >> nx - 1) & map[ny]) && !(visited[ny] & (Bit >> nx - 1))) {
 			if (find_way(nx - 1, ny)) return 1;
@@ -167,4 +183,57 @@ int find_way(int nx, int ny) {
 	cout << "  ";
 	
 	return 0;
+}
+
+int find_short_way(int nx, int ny, int pway) {
+	int k = 0;
+	visited[ny] |= Bit >> nx;
+	if (nx == nex && ny == ney) {
+		if (pway < way) {
+			way = pway;
+			delete[] shvisited;
+			shvisited = new uint[Rows];
+			for (i = 0; i < Rows; i++) {
+				shvisited[i] = visited[i];
+				if (shvisited[i] != 0) {
+					for (int j = 0;j < Cols; j++) {					
+						if ((Cols - log_2(shvisited[i]) + 1) & (Bit >> j)) {
+							SetColor(2, 2);
+							point((Cols - log_2(shvisited[i]) + 1) & (Bit >> j), i);
+							cout << "  ";
+						}
+					}
+				}
+			}
+		}
+		visited[ney] -= Bit >> nex;
+		return 1;
+	}
+
+	if (nx + 1 <= Cols) {
+		if (!((Bit >> nx + 1) & map[ny]) && !(visited[ny] & (Bit >> nx + 1))) {
+			if (find_short_way(nx + 1, ny, pway + 1)) k = 1;
+		}
+	}
+	if (ny + 1 <= Rows) {
+		if (!((Bit >> nx) & map[ny + 1]) && !(visited[ny + 1] & (Bit >> nx))) {
+			if (find_short_way(nx, ny + 1, pway + 1)) k = 1;
+		}
+	}
+	if (ny - 1 >= 0) {
+		if (!((Bit >> nx) & map[ny - 1]) && !(visited[ny - 1] & (Bit >> nx))) {
+			if (find_short_way(nx, ny - 1, pway + 1)) k = 1;
+		}
+	}
+	
+	if (nx - 1 >= 0) {
+		if (!((Bit >> nx - 1) & map[ny]) && !(visited[ny] & (Bit >> nx - 1))) {
+			if (find_short_way(nx - 1, ny, pway + 1)) k = 1;
+		}
+	}
+	visited[ny] -= Bit >> nx;
+	SetColor(0, 15);
+	point(nx, ny);
+	cout << "  ";
+	return k;
 }

@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="lab5.cpp" />
     <ClCompile Include="lab6.cpp" />
     <ClCompile Include="lab6_funcs.cpp" />
     <ClCompile Include="lab_funcs.cpp" />
@@ -139,7 +140,7 @@
     <ClInclude Include="lab6_funcs.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="text.txt" />
+    <Text Include="Inp.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
