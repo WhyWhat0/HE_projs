@@ -35,7 +35,6 @@ int map[32] = {
 	0b1111'1111'1101'1111'1111'1111'1111'1111 //31
 };
 
-ofstream f("inp.txt");
 int c, i = 0;
 int nx, ny;
 const int nbx = 12, nby = 0, nex = 10, ney = 31;
@@ -49,15 +48,11 @@ void lab6() {
 	for (ny = 0; ny < Rows; ny++) {
 		for (nx = 0; nx < Cols; nx++) {
 			if ((Bit >> nx) & map[ny]) {
-				SetColor(7, 7);
+				SetColor(CL_WHITE, CL_WHITE);
 				cout << "WW";
 			}	
-			else if (nx == nex && ny == ney) {
-				SetColor(4, 4);
-				cout << "  ";
-			} 
 			else{
-				SetColor(0, 15);
+				SetColor(CL_BLACK, CL_WHITE);
 				cout << "  ";
 			}
 			 
@@ -69,19 +64,36 @@ void lab6() {
 	nx = nbx; ny = nby;
 
 	do {
-		move(nx, ny);
+		if (nx != nbx || ny != nby) {
+			point(nbx, nby);
+			SetColor(CL_YELLOW);
+			cout << "  ";
+		}
+		if (nx != nex || ny != ney) {
+			point(nex, ney);
+			SetColor(CL_RED);
+			cout << "  ";
+		}
+		point(nx, ny);
+		if (nx == nbx && ny == nby) SetColor(CL_YELLOW);
+		else if (nx == nex && ny == ney) SetColor(CL_RED);
+		else SetColor(CL_BLUE);
+		cout << "@@";
 		c = _getch();
+		SetColor(CL_BLACK);
+		point(nx, ny);
+		cout << "  ";
 		if (c == 224) {
 			c = _getch();
 			switch (c) {
 			case 72:
-				if (((Bit >> nx) & map[ny - 1]) || ny - 1 <= 0) Beep(400, 100); else ny -= 1;
+				if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1;
 				break;
 			case 80:
 				if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1;
 				break;
 			case 75:
-				if (((Bit >> nx - 1) & map[ny]) || nx - 1 <= 0) Beep(400, 100); else nx -= 1;
+				if (((Bit >> nx - 1) & map[ny]) || nx - 1 < 0) Beep(400, 100); else nx -= 1;
 				break;
 			case 77:
 				if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1;
@@ -94,37 +106,25 @@ void lab6() {
 				visited = new uint[Rows];
 				memset(visited, 0, sizeof(uint) * Rows);
 				find_way(nx, ny);
-				for (int i = 0;i < 32; i++) {
-					f << bitset<32>(visited[i]) << endl;
-				}
-				f << endl;
-				f.close();
-				point(nx, ny);
 				delete[] visited;
 				break;
 			case 64:
 				visited = new uint[Rows];
 				shvisited = new uint[Rows];
 				memset(visited, 0, sizeof(uint) * Rows);
+				memset(shvisited, 0, sizeof(uint) * Rows);
 				find_short_way(nx, ny);
-				paint();
-				for (int i = 0;i < 32; i++) {
-					f << bitset<32>(visited[i]) << endl;
-				}
-				f << endl;
-				f.close();
-				point(nx, ny);
 				delete[] visited;
 				delete[] shvisited;
 				break;
 			case 119:
-				if (((Bit >> nx) & map[ny - 1]) || ny - 1 <= 0) Beep(400, 100); else ny -= 1;
+				if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1;
 				break;
 			case 115:
 				if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1;
 				break;
 			case 97:
-				if (((Bit >> nx - 1) & map[ny]) || nx - 1 <= 0) Beep(400, 100); else nx -= 1;
+				if (((Bit >> nx - 1) & map[ny]) || nx - 1 < 0) Beep(400, 100); else nx -= 1;
 				break;
 			case 100:
 				if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1;
@@ -134,24 +134,24 @@ void lab6() {
 			}
 		}
 		
-	} while (c != 27 && !((nx == nex) && (ny == ney)));
-	SetColor(0, 15);
-	
+	} while (c != 27 && !(nx == nex && ny == ney));
+	SetColor(CL_BLACK, CL_WHITE);
+
     if (c == 27) {
 		system("cls");
 	}
 	else {
-		SetColor(5, 15);
+		SetColor(CL_PURPLE, CL_WHITE);
 		system("cls");
 		cout << "Easy win!!!" << endl;
-		SetColor(0, 15);
+		SetColor(CL_BLACK, CL_WHITE);
 		_getch();
 	}
 }
 
 int find_way(int nx, int ny) {
 	
-	SetColor(2, 2);
+	SetColor(CL_GREEN, CL_GREEN);
 	point(nx, ny);
 	cout << "  ";
 	visited[ny] |= Bit >> nx;
@@ -179,7 +179,7 @@ int find_way(int nx, int ny) {
 			if (find_way(nx - 1, ny)) return 1;
 		}
 	}
-	SetColor(0, 15);
+	SetColor(CL_BLACK, CL_WHITE);
 	point(nx, ny);
 	cout << "  ";
 	
@@ -187,13 +187,12 @@ int find_way(int nx, int ny) {
 }
 
 int find_short_way(int nx, int ny, int pway) {
+
 	int k = 0;
 	visited[ny] |= Bit >> nx;
 	if (nx == nex && ny == ney) {
 		if (pway < way) {
 			way = pway;
-			delete[] shvisited;
-			shvisited = new uint[Rows];
 			for (i = 0; i < Rows; i++) {
 				shvisited[i] = visited[i];
 			}
@@ -224,22 +223,20 @@ int find_short_way(int nx, int ny, int pway) {
 		}
 	}
 	visited[ny] -= Bit >> nx;
-	SetColor(0, 15);
-	point(nx, ny);
-	cout << "  ";
-	return k;
-}
-
-void paint() {
-	for (i = 0; i < Rows; i++) {
-		if (shvisited[i] != 0) {
-			for (int j = 0;j < Cols; j++) {
-				if (shvisited[i] & (Bit >> j)) {
-					SetColor(2, 2);
-					point(j, i);
-					cout << "  ";
+	if (pway == 0) {
+		for (i = 0; i < Rows; i++) {
+			if (shvisited[i] != 0) {
+				for (int j = 0;j < Cols; j++) {
+					if (shvisited[i] & (Bit >> j)) {
+						SetColor(CL_GREEN, CL_GREEN);
+						point(j, i);
+						cout << "  ";
+					}
 				}
 			}
 		}
+		SetColor(CL_BLACK, CL_WHITE);
 	}
+	return k;
 }
+

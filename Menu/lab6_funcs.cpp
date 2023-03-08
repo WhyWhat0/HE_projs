@@ -16,13 +16,6 @@ void SetColor(int pnColorBackground, int pnColorText) {
 	SetConsoleTextAttribute(hConsole, (WORD)(((pnColorBackground & 0x000F) << 4) | (pnColorText & 0x000F)));
 }
 
-void move(int x, int y) {
-	SetColor(0, 15);
-	cout << "  "; point(x, y);
-	SetColor(9, 9);
-	cout << "@@"; point(x, y);
-}
-
 int log_2(uint a) {
 	int k = 0;
 	while (a != 1) {

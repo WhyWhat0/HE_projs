@@ -60,7 +60,7 @@ void lab2_1()
 	cout << "Отклонение и соотношение b2: " << round(d2 * 100) / 100 << ", " << round(d2_c * 100) / 100 << "%" << endl;
 	float d3 = abs(b3 - bmid); float d3_c = d3 / (bmax - bmin) * 100;
 	cout << "Отклонение и соотношение b3: " << round(d3 * 100) / 100 << ", " << round(d3_c * 100) / 100 << "%" << endl;
-
+	_getch();
 }
 void lab2_2()
 {
@@ -90,6 +90,7 @@ void lab2_2()
 		cin >> a;
 		if (a == 0) cout << endl << "Программа завершила работу.";
 	}
+	_getch();
 }
 void lab3_1()
 {
@@ -112,6 +113,7 @@ void lab3_1()
 			<< setw(10) << round(f(a, x, k) * 1000) / 1000 << endl;
 		x += dx;
 	}
+	_getch();
 }
 void lab3_2()
 {
@@ -150,6 +152,7 @@ void lab3_2()
 		}
 	}
 	cout << endl << "Количество чисел, подчиняющиеся условиям: " << l;
+	_getch();
 }
 void lab4()
 {
@@ -205,6 +208,7 @@ void lab4()
 		}
 		cout << endl;
 	}
+	_getch();
 }
 
 
