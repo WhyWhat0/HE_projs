@@ -17,6 +17,7 @@ typedef struct _stRecursion {
 
 	_stRecursion(): count(0), setRec(NULL){}
 	_stRecursion(int pCount) { setRec = new stRecItem[count]; }
+	~_stRecursion() { delete[] setRec; }
 
 	int AddItem(int pID, double pValue1, double pValue2) { //добавить в конец новый набор данных
 		count++;
@@ -24,7 +25,18 @@ typedef struct _stRecursion {
 
 		setRec[count - 1].IdSet = pID;
 		setRec[count - 1].value1 = pValue1;
-		setRec[count - 1].value1 = pValue2;
+		setRec[count - 1].value2 = pValue2;
 		return count;
 	}
-}stRecursion, * pstRecursion;
+	void Clear() {
+		count = 0;
+		if (setRec != NULL) { free(setRec); setRec = NULL; }
+	}
+	int SetCount(int pCount) {
+		Clear();
+		count = pCount;
+		setRec = new stRecItem[pCount];
+		return count;
+	}
+
+}stRecursion, *pstRecursion;
