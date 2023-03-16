@@ -9,16 +9,17 @@ int main(){
 		cout << "Выберите лабораторную работу из:\n\n";
 		cout << "i) Сведения о программисте\n\n";
 		cout << "1) 1 семестр\n\n";
-		cout << "2) Задание 5. Битовая маска\n\n";
-		cout << "3) Задание 6. Лабиринт\n\n";
-		cout << "4) Задание 7. Рекурсия\n\n";
+		cout << "2) Битовая маска\n\n";
+		cout << "3) Лабиринт\n\n";
+		cout << "4) Рекурсия\n\n";
+		cout << "5) Макросы\n\n";
 		cout << "0) Выход из программы \n\n";
-		cin >> i;
+		i = _getch();
 		system("cls");
 		switch (i){ // управление выбором в меню
 		case 'i':
 			cout << "Выполнил студент группы 1бИТС2 Долгов Семен Вадимович"; 			
-			_getch();
+			system("cls");
 			break;
 		case '1':
 			menu1(); break;			
@@ -28,11 +29,13 @@ int main(){
 			lab6(); break;
 		case '4':
 			lab7(); break;
+		case '5':
+			lab_macros(); break;
 		case '0':
 			return 0;
 		default:
 			cout << "Ошибочный ввод. Нажмите любую кнопку для продолжения...";
-			_getch();
+			system("pause");
 			break;
 
 		}		
@@ -53,7 +56,7 @@ int menu1() {
 		cout << "0) Выход в главное меню \n\n";
 
 		char i;
-		cin >> i;
+		i = _getch();
 		system("cls");
 		switch (i) {
 		case '1':
@@ -70,7 +73,7 @@ int menu1() {
 			return 0;
 		default:
 			cout << "Ошибочный ввод. Нажмите любую кнопку для продолжения...";
-			_getch();
+			system("pause");
 			break;
 		}
 	}

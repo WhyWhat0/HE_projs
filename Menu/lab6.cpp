@@ -107,16 +107,17 @@ void lab6() {
 				visited = new uint[Rows];
 				memset(visited, 0, sizeof(uint) * Rows); 
 				find_way(nx, ny);
-				delete[] visited;
+				delete[] visited; visited = NULL;
 				break;
 			case 64:
-				visited = new uint[Rows];
-				shvisited = new uint[Rows];
+				visited = new uint[Rows]; 
+				shvisited = new uint[Rows]; 
 				memset(visited, 0, sizeof(uint) * Rows);
 				memset(shvisited, 0, sizeof(uint) * Rows);
 				find_short_way(nx, ny);
-				delete[] visited;
-				delete[] shvisited;
+				paint(CL_GREEN, CL_GREEN);
+				//delete[] shvisited; visited = NULL;
+				delete[] visited; visited = NULL;
 				break;
 			case 119:
 				if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1;// вверх
@@ -144,9 +145,9 @@ void lab6() {
 	else {
 		SetColor(CL_PURPLE, CL_WHITE);
 		system("cls");
-		cout << "Easy win!!!" << endl;
+		cout << "Жук дошел до конца лабиринта!!!" << endl;
+		system("pause");
 		SetColor(CL_BLACK, CL_WHITE);
-		_getch();
 	}
 }
 
@@ -224,20 +225,20 @@ int find_short_way(int nx, int ny, int pway) { // поиск наикротчайшего пути
 		}
 	}
 	visited[ny] -= Bit >> nx;
-	// зарисовка наикрачайшего пути
-	if (pway == 0) {
-		for (int i = 0; i < Rows; i++) {
-			if (shvisited[i] != 0) {
-				for (int j = 0;j < Cols; j++) {
-					if (shvisited[i] & (Bit >> j)) {
-						SetColor(CL_GREEN, CL_GREEN);
-						point(j, i);
-						cout << "  ";
-					}
+	return k;
+}
+
+// зарисовка наикротчайшего пути
+void paint(int cl1, int cl2) {
+	for (int i = 0; i < Rows; i++) {
+		if (shvisited[i] != 0) {
+			for (int j = 0;j < Cols; j++) {
+				if (shvisited[i] & (Bit >> j)) {
+					SetColor(cl1, cl2);
+					point(j, i);
+					cout << "  ";
 				}
 			}
 		}
 	}
-	return k;
 }
-

@@ -133,12 +133,14 @@
     <ClCompile Include="lab7.cpp" />
     <ClCompile Include="lab_funcs.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="swap_f.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
     <ClInclude Include="lab6.h" />
     <ClInclude Include="lab6_funcs.h" />
     <ClInclude Include="lab7.h" />
+    <ClInclude Include="swap.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Inp.txt" />
