@@ -58,4 +58,7 @@ typedef struct stRect {
 }stRECT, *pstRECT;
 void lab7(bool pause = true);
 void lab7_graf();
-void DrawGraf(const stRect prect, stRecursion& pRecData);
+void DrawGraf(stRect prect, stRecursion& pRecData);
+
+void DrawAxisX(HDC phdc, stRect pInRect, int psec); 
+void DrawAxisY(HDC phdc, stRect pInRect, int psec);

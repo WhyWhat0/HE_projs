@@ -76,9 +76,34 @@ void lab7_graf() {
 void DrawGraf(stRect prect, stRecursion& pRecData) {
 	if (pRecData.count == 0) { cout << "Построение графика невозможно!\n"; return; }
 
+	int indx = 15, indy = 15;
+	stRect InRect(prect.Left + indx, prect.Top + indy, prect.Width - indx - 10, prect.Height - indy - 25);
 	HWND hwnd = GetConsoleWindow();
 	HDC hdc = GetDC(hwnd);
 	HPEN pen = CreatePen(PS_SOLID, 2, RGB(255, 2585, 255));
-
+	LOGBRUSH Igbr{ PS_SOLID, RGB(78, 78, 78), 0 };
+	HBRUSH brush = CreateBrushIndirect(&Igbr);
+	(SelectObject(hdc, pen));
+	(SelectObject(hdc, brush));
 	Rectangle(hdc, prect.Left, prect.Top, prect.Right(), prect.Bottom());
+	DrawAxisX(hdc, InRect, pRecData.count/2);
+	DrawAxisY(hdc, InRect, 5);
+}
+
+void DrawAxisX(HDC phdc, stRect pInRect, int psec) {
+	MoveToEx(phdc, pInRect.Left, pInRect.Bottom(), NULL);
+	LineTo(phdc, pInRect.Right(), pInRect.Bottom());
+
+	float PxSec = pInRect.Width / psec;
+	for (int i = 0; i < psec; i++) {
+		if (i > 0) {
+			MoveToEx(phdc, pInRect.Left + i * PxSec, pInRect.Top, NULL);
+			LineTo(phdc, pInRect.Right(), pInRect.Bottom());
+
+		}
+	}
+}
+void DrawAxisY(HDC phdc, stRect pInRect, int psec) {
+	MoveToEx(phdc, pInRect.Left, pInRect.Top, NULL);
+	LineTo(phdc, pInRect.Left, pInRect.Bottom());
 }
