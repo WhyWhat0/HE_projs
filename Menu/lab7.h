@@ -1,6 +1,8 @@
 #pragma once
 #include "Header.h"
 
+
+
 typedef struct _stRecItem{
 	int IdSet; // индекс набора данных
 	double value1, //значение 1
@@ -40,3 +42,20 @@ typedef struct _stRecursion {
 	}
 
 }stRecursion, *pstRecursion;
+
+typedef struct stRect {
+	uint Left,
+		Top,
+		Width,
+		Height;
+	stRect() : Left(0), Top(0), Width(0), Height(0) {}
+	stRect(uint pLeft, uint pTop) : Width(0), Height(0), Left(pLeft), Top(pTop) {}
+	stRect(uint pLeft, uint pTop, uint pWidth, uint pHeight) :
+		Left(pLeft), Top(pTop), Width(pWidth), Height(pHeight) {}
+	uint Bottom() { return Top + Height; }
+	uint Right() { return Left + Width; }
+
+}stRECT, *pstRECT;
+void lab7(bool pause = true);
+void lab7_graf();
+void DrawGraf(const stRect prect, stRecursion& pRecData);

@@ -21,9 +21,6 @@
     <ClCompile Include="lab_funcs.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="lab6_funcs.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="lab6.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -36,6 +33,9 @@
     <ClCompile Include="swap_f.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="1_term_labs.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h">
@@ -44,13 +44,13 @@
     <ClInclude Include="lab6.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="lab6_funcs.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="lab7.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="swap.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="lab_fucs.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

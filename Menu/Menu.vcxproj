@@ -127,9 +127,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="1_term_labs.cpp" />
     <ClCompile Include="lab5.cpp" />
     <ClCompile Include="lab6.cpp" />
-    <ClCompile Include="lab6_funcs.cpp" />
     <ClCompile Include="lab7.cpp" />
     <ClCompile Include="lab_funcs.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -138,8 +138,8 @@
   <ItemGroup>
     <ClInclude Include="Header.h" />
     <ClInclude Include="lab6.h" />
-    <ClInclude Include="lab6_funcs.h" />
     <ClInclude Include="lab7.h" />
+    <ClInclude Include="lab_fucs.h" />
     <ClInclude Include="swap.h" />
   </ItemGroup>
   <ItemGroup>

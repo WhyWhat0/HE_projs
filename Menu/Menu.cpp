@@ -1,7 +1,7 @@
 ﻿#include "Header.h" //Заголовки функций для лабораторных работ
 
 int main(){
-	char i; // для выбора пункта меню
+	uchar i; // для выбора пункта меню
 	setlocale(LC_ALL, "Russian");
 	while (true) {
 		system("cls"); // очистка экрана
@@ -28,15 +28,14 @@ int main(){
 		case '3':
 			lab6(); break;
 		case '4':
-			lab7(); break;
+			RecMenu(); break;
 		case '5':
 			lab_macros(); break;
 		case '0':
 			return 0;
 		default:
 			cout << "Ошибочный ввод. Нажмите любую кнопку для продолжения...";
-			system("pause");
-			break;
+			_getch();			
 
 		}		
 	}
@@ -55,7 +54,7 @@ int menu1() {
 		cout << "5) Задание 4. Обработка матриц 6X6\n\n";
 		cout << "0) Выход в главное меню \n\n";
 
-		char i;
+		uchar i;
 		i = _getch();
 		system("cls");
 		switch (i) {
@@ -73,8 +72,7 @@ int menu1() {
 			return 0;
 		default:
 			cout << "Ошибочный ввод. Нажмите любую кнопку для продолжения...";
-			system("pause");
-			break;
+			_getch();
 		}
 	}
 }
