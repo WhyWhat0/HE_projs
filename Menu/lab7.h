@@ -43,7 +43,62 @@ typedef struct _stRecursion {
 		if (setRec != NULL) { free(setRec); setRec = NULL; }
 	}
 
-	double X(int pIndex) {
+	pair <double, double> minimax(enModel pmod) {
+		if (count == 0) return pair<double, double>(0, 0);
+		double min = 0, max = 0;
+		switch (pmod) {
+		case mod_X: {
+			switch (model) {
+
+			case mod_An_Y: {
+				min = max = setRec[0].value1;
+				for (int i = 1;i < count; i++) {
+					if (min > setRec[i].value1) min = setRec[i].value1;
+					if (max < setRec[i].value1) max = setRec[i].value1;
+				}
+			}break;
+
+			default: {
+				min = max = setRec[0].IdSet;
+				for (int i = 1;i < count; i++) {
+					if (min > setRec[i].IdSet) min = setRec[i].IdSet;
+					if (max < setRec[i].IdSet) max = setRec[i].IdSet;
+				}
+			}
+			}break;
+		}
+		case mod_Y: {
+			switch (model) {
+			case mod_n_Y:
+			case mod_An_Y: {
+				min = max = setRec[0].value2;
+				for (int i = 1;i < count; i++) {
+					if (min > setRec[i].value2) min = setRec[i].value2;
+					if (max < setRec[i].value2) max = setRec[i].value2;
+				}
+			}break;
+			case mod_n_An: {
+				min = max = setRec[0].value1;
+				for (int i = 1;i < count; i++) {
+					if (min > setRec[i].value1) min = setRec[i].value1;
+					if (max < setRec[i].value1) max = setRec[i].value1;
+				}
+			}break;
+			case mod_n_An_Y: {
+				min = max = setRec[0].IdSet;
+				for (int i = 1;i < count; i++) {
+					if (min > setRec[i].value1) min = setRec[i].value1;
+					if (max < setRec[i].value1) max = setRec[i].value1;
+					if (min > setRec[i].value2) min = setRec[i].value2;
+					if (max < setRec[i].value2) max = setRec[i].value2;
+				}
+			}
+			}
+		}
+		}
+		return pair<double, double>(min, max);
+	}
+	double X(int pIndex){
 		if (count == 0 || pIndex >= count) return 0;
 
 		switch (model) {
@@ -62,15 +117,20 @@ typedef struct _stRecursion {
 		if (count == 0 || pIndex >= count) return pair<double,double>(0,0);
 
 		switch (model) {
-		case mod_n_An_Y: {
-			return pair<double, double> (setRec[pIndex].value1, setRec[pIndex].value2);
-		} break;  //данные n - номер метки, An - член ряда, Y - текущая сумма
-		case mod_n_An: break;
-		case mod_n_Y: break;
-		case mod_An_Y: break;
-			
+			case mod_n_An_Y: {
+				return pair<double, double> (setRec[pIndex].value1, setRec[pIndex].value2);
+			} break;  //данные n - номер метки, An - член ряда, Y - текущая сумма
+
+			case mod_n_An: {
+				return pair<double, double>(setRec[pIndex].value1, 0);
+			}break;
+
+			case mod_n_Y: 
+			case mod_An_Y: {
+				return pair<double, double>(setRec[pIndex].value2, 0);
+			}break;
 		}
-			return 0;
+			return pair<double, double>(0,0);
 	}
 
 	int SetCount(int pCount) {
@@ -87,6 +147,7 @@ typedef struct stRect {
 		Top,
 		Width,
 		Height;
+	double k = Width / Height;
 	stRect() : Left(0), Top(0), Width(0), Height(0) {}
 	stRect(uint pLeft, uint pTop) : Width(0), Height(0), Left(pLeft), Top(pTop) {}
 	stRect(uint pLeft, uint pTop, uint pWidth, uint pHeight) :
@@ -99,5 +160,5 @@ void lab7(bool pause = true);
 void lab7_graf();
 void DrawGraf(stRect prect, stRecursion& pRecData);
 
-void DrawAxisX(HDC phdc, stRect pInRect, int psec, char* ptext = NULL); 
-void DrawAxisY(HDC phdc, stRect pInRect, int psec, char* ptext = NULL);
+void DrawAxisX(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* ptext = NULL);
+void DrawAxisY(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* ptext = NULL);
