@@ -1,34 +1,39 @@
 #include "swap.h"
 
 void lab_macros() {
-	cout << "Демонстрация функций макросов SWAP, MIN, MAX\n";
-	
-	cout << "SWAP, LOW, HIGH - Введите A(int), B(short), C(long long)\n";
+	uchar c;
+	do {
+		CLEAR;
+		c = _getch();
+		cout << "Демонстрация функций макросов SWAP, MIN, MAX\n";
 
-	int a;
-	short b;
-	long long int c;
-	cin >> a >> b >> c;
+		cout << "SWAP, LOW, HIGH - Введите A(int), B(short), C(long long)\n";
 
-	printf("A = %d\nB = %d\nC = %d\n\n", a, b, c);
-	printf("A = %08x\nB = %04x\nC = %016x\n\n", a, b, c);
-	printf("A (LOW) = %04x\nA (HIGH) = %x\n\n", low(a), high(a));
+		int a;
+		short b;
+		long long c;
+		cin >> a >> b >> c;
 
-	a = swap_int(a);
-	b = swap_sh(b);
-	c = swap_long(c);
-	cout << "После SWAPa:\n";
-	printf("A = %d\nB = %d\n\C = %d\n\n", a, b, c);
-	printf("A = %08x\nB = %04x\nC = %llu\n\n", a, b, c);
+		printf("A = %d\nB = %d\nC = %d\n\n", a, b, c);
+		printf("A = %08x\nB = %04x\nC = %016x\n\n", a, b, c);
+		printf("A (LOW) = %4x\nA (HIGH) = %4x\n\n", low(a), high(a));
 
-	cout << "MIN - Введите A и B (float):\n";
-	float k, d;
-	cin >> k >> d;
-	printf("\nМинимальное - %f", min(k, d));
+		a = swap(a);
+		b = swap(b);
+		c = swap(c);
+		cout << "После SWAPa:\n";
+		printf("A = %d\nB = %d\n\C = %d\n\n", a, b, c);
+		printf("A = %08x\nB = %04x\nC = %016x\n\n", a, b, c);
 
-	cout << "\n\nMAX - Введите A и B (float):\n";
-	cin >> k >> d;
-	printf("\nМаксимальное - %f\n", max(k, d));
+		cout << "MIN - Введите A и B (float):\n";
+		float k, d;
+		cin >> k >> d;
+		printf("\nМинимальное - %f", min(k, d));
 
-	system("pause");
+		cout << "\n\nMAX - Введите A и B (float):\n";
+		cin >> k >> d;
+		printf("\nМаксимальное - %f\n", max(k, d));
+	} while (c != 27);
+		PAUSE;
+
 }
