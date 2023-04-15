@@ -3,6 +3,8 @@
 int main(){
 	uchar i; // для выбора пункта меню
 	setlocale(LC_ALL, "Russian");
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
 	while (true) {
 		system("cls"); // очистка экрана
 		cout << "Основное меню программы\n\n";
@@ -13,12 +15,13 @@ int main(){
 		cout << "3) Лабиринт\n\n";
 		cout << "4) Рекурсия\n\n";
 		cout << "5) Макросы\n\n";
+		cout << "6) Шифр Цезаря\n\n";
 		cout << "0) Выход из программы \n\n";
 		i = _getch();
 		system("cls");
 		switch (i){ // управление выбором в меню
 		case 'i':
-			cout << "Выполнил студент группы 1бИТС2 Долгов Семен Вадимович"; 			
+			cout << "Выполнил студент группы 1бИТС2 Долгов Семен Вадимович"; _getch();
 			system("cls");
 			break;
 		case '1':
@@ -31,6 +34,8 @@ int main(){
 			RecMenu(); break;
 		case '5':
 			lab_macros(); break;
+		case '6':
+			CordingMenu(); break;
 		case '0':
 			return 0;
 		default:

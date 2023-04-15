@@ -39,3 +39,4 @@ typedef enum {
 void ClearScreen();
 void point(int x, int y);
 void SetColor(int pnColorBackground = CL_BLACK, int pnColorText = CL_BLUE);
+double mPow(double x, double l);

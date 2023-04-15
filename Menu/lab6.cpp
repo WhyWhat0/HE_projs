@@ -144,9 +144,9 @@ void lab6() {
 	}
 	else {
 		SetColor(CL_PURPLE, CL_WHITE);
-		system("cls");
+		point(8, 16);
 		cout << "Жук дошел до конца лабиринта!!!" << endl;
-		system("pause");
+		_getch();
 		SetColor(CL_BLACK, CL_WHITE);
 	}
 }

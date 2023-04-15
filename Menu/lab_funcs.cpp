@@ -12,6 +12,12 @@ void SetColor(int pnColorBackground, int pnColorText) { // установить цвет фона 
 	SetConsoleTextAttribute(hConsole, (WORD)(((pnColorBackground & 0x000F) << 4) | (pnColorText & 0x000F)));
 }
 
+double mPow(double x, double l) {
+	if (l>=1) for (int i = 1; i < l;i++) {
+		x = x * x;
+	}
+	return x;
+}
 void ClearScreen()
 {
 	HANDLE                     hStdOut;

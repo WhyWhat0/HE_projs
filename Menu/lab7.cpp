@@ -1,7 +1,7 @@
 #include "lab7.h"
 
 stRecursion RecData;
-
+bool fterm = false;
 void RecMenu() {
 	uchar i = 0;
 	do {
@@ -10,12 +10,14 @@ void RecMenu() {
 		cout << "Меню рекурсии\n\n";
 		cout << "1) Рекурсия с таблицей\n\n";
 		cout << "2) Рекурсия с графиком\n\n";
+		cout << "3) Рекурсия с графиком 1-го семестра\n\n";
 		cout << "0) Выход\n\n";
 
 		i = _getch();
 		switch (i) {
 		case '1': system("cls"); lab7(); break;
 		case '2': system("cls"); lab7_graf(); break;
+		case '3': system("cls"); fterm = true; lab7_graf(); break;
 		case '0': return;
 		default:
 			system("cls");
@@ -26,7 +28,22 @@ void RecMenu() {
 	} while (i != 27);
 }
 
-long double NextRec(double x, double n,double &An, double nSum) {
+long double NextRec_fterm(double x, double dx, double n, double& An, double nSum, double k, double a, int size) {
+	An = x < k * a?
+	-sqrt(abs(16 * mPow(a, 2) + 4 * mPow(a, 2) * mPow(x + a, 2))) - mPow(x + a, 2) - mPow(a, 2)
+	:
+	sqrt(abs(mPow(a, 2) - (x + mPow(a, 2)))) - 2 * a;
+	nSum = nSum + An;
+	RecData.setRec[(int)n - 1].IdSet = (int)n;
+	RecData.setRec[(int)n - 1].value1 = An;
+	RecData.setRec[(int)n - 1].value2 = nSum;
+
+	if (n < size) return NextRec_fterm(x + dx, dx, n + 1, An, nSum, k, a, size);
+	return nSum;
+}
+
+
+long double NextRec(double x, double n,double &An, double nSum, int size = 20) {
 	An = pow(n, 3) + pow(An,1) / pow(n, 3);	
 	nSum = nSum + An;
 	RecData.setRec[(int)n-1].IdSet = (int)n;
@@ -36,7 +53,7 @@ long double NextRec(double x, double n,double &An, double nSum) {
 	/*(RecData.setRec + n)->IdSet = n;
 	(*(RecData.setRec + n)).IdSet = n;*/
 
-	if (n < 20) return NextRec(x, n + 1, An, nSum);
+	if (n < size) return NextRec(x, n + 1, An, nSum);
 	return nSum;
 }
 
@@ -45,14 +62,27 @@ long double NextRec(double x, double n,double &An, double nSum) {
 void lab7(bool pause) {
 	cout << "Расчет рекуррентного соотношения последоваельности\n";
 	cout << "\tиз 20 членов с последующим суммированием\n";
-
-	double x = 1;
-	cout << "\nначальное значение x = 1\n";
-	RecData.SetCount(20);
+	double A = 0, K = 0, x = 0, dx = 0;
+	int N = 20;
+	if (!fterm){
+		cout << "\nначальное значение x = 1\n";
+	}
+	else {
+		cout << "\nвведите значение N\n";
+		cin >> N;
+		cout << "\nвведите значение A\n";
+		cin >> A;
+		cout << "\nвведите значение K\n";
+		cin >> K;
+		x = -A * (2.2);
+		dx = A/5;
+	}
+	RecData.SetCount(N);
 	RecData.setRec[0].IdSet = 1;
 	RecData.setRec[0].value1 = x;
 	RecData.setRec[0].value2 = 0;
-	double y = NextRec(x, 2, x, 0);
+	double y = 0;
+	if (!fterm) y = NextRec(x, 1, x, 0); else y = NextRec_fterm(x, dx, 1, x, 0, K, A, N);
 	printf("\nвывести конечные значения y=%f,\tпри x=%4f\n", y, x);
 	cout << "\nNпп\t  чден ряда\t накопленное значчение\n";
 	for (int i = 0; i < RecData.count;i++) {
@@ -67,7 +97,7 @@ void lab7_graf() {
 	RecData.Clear();
 	lab7(false);
 
-	stRECT Rect(500, 300, 800, 400);
+	stRECT Rect(450, 200, 800, 400);
 	cout << "График\n\n";
 	DrawGraf(Rect, RecData);
 	_getch();
@@ -96,7 +126,7 @@ void DrawGraf(stRect prect, stRecursion& pRecData) {
 		OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS,
 		CLEARTYPE_QUALITY, VARIABLE_PITCH, "Times New Roman");
 
-	SetTextColor(hdc, RGB(0, 0, 255));
+	SetTextColor(hdc, RGB(0, 255, 255));
 	SetBkColor(hdc, RGB(78, 78, 78));
 
 	holdfont = (HFONT)SelectObject(hdc, hfTitle);
@@ -153,6 +183,7 @@ void DrawAxisX(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* 
 	
 	double PxStep = pInRect.Width/(psec);
 	SIZE sizex;
+	SetTextColor(phdc, RGB(255, 255, 255));
 	for (int i = 0; i < psec; i++) {
 		if (i > 0) {
 			MoveToEx(phdc, pInRect.Left + i * PxStep, pInRect.Bottom() + 2, NULL);
@@ -205,7 +236,7 @@ void DrawAxisY(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* 
 		OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS,
 		CLEARTYPE_QUALITY, VARIABLE_PITCH, "Times New Roman");
 	hold = (HFONT)SelectObject(phdc, haixes);
-	SetTextColor(phdc, RGB(0, 0, 255));
+	SetTextColor(phdc, RGB(255, 255, 255));
 	for (int i = 0; i < psec; i++) {
 		if (i > 0) {
 			MoveToEx(phdc, pInRect.Left-2, pInRect.Bottom() - i * PxSec, NULL);

@@ -131,6 +131,7 @@
     <ClCompile Include="lab5.cpp" />
     <ClCompile Include="lab6.cpp" />
     <ClCompile Include="lab7.cpp" />
+    <ClCompile Include="lab8.cpp" />
     <ClCompile Include="lab_funcs.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="swap_f.cpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Header.h" />
     <ClInclude Include="lab6.h" />
     <ClInclude Include="lab7.h" />
+    <ClInclude Include="lab8.h" />
     <ClInclude Include="lab_fucs.h" />
     <ClInclude Include="swap.h" />
   </ItemGroup>
