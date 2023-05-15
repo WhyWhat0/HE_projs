@@ -1,4 +1,4 @@
-#include"Header.h"
+#include"lab_fucs.h"
 
 
 void point(int x, int y) { // перемиститься на текущие координаты
@@ -18,17 +18,22 @@ double mPow(double x, double l) {
 	}
 	return x;
 }
-void ClearScreen()
-{
-	HANDLE                     hStdOut;
+void ClearScreen() {
+
+	HANDLE hStdOut;
+
 	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	DWORD                      count;
-	DWORD                      cellCount;
-	COORD                      homeCoords = { 0, 0 };
+
+	DWORD count;
+
+	DWORD cellCount;
+
+	COORD homeCoords = { 0,0 };
 
 
 
 	hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
 	if (hStdOut == INVALID_HANDLE_VALUE) return;
 
 
@@ -37,23 +42,30 @@ void ClearScreen()
 
 
 
-	/*Получить количество ячеек в текущем буфере */
+	// получить количество ячеек в текущем буфекре 
+
 	if (!GetConsoleScreenBufferInfo(hStdOut, &csbi)) return;
+
 	cellCount = csbi.dwSize.X * csbi.dwSize.Y;
 
 
 
-	/*Заполните весь буфер пробелами*/
+	//заполняем весь буфер пробелами
+
 	if (!FillConsoleOutputCharacterA(hStdOut, ' ', cellCount, homeCoords, &count)) return;
 
 
 
-	/* Заполните весь буфер текущими цветами и атрибутами */
+	//заполняем весь буфер текущими цветами и атрибутами 
+
 	if (!FillConsoleOutputAttribute(hStdOut, csbi.wAttributes, cellCount, homeCoords, &count)) return;
 
 
 
-	/* Переместите курсор домой */
+	//перемещаем курсор бек ту зе хоум
+
 	SetConsoleCursorPosition(hStdOut, homeCoords);
+
 }
+
 

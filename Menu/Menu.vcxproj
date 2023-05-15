@@ -128,19 +128,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="1_term_labs.cpp" />
+    <ClCompile Include="CEllipse.cpp" />
+    <ClCompile Include="CFigure.cpp" />
+    <ClCompile Include="CManager.cpp" />
+    <ClCompile Include="CRectangle.cpp" />
+    <ClCompile Include="CTriangle.cpp" />
+    <ClCompile Include="lab10.cpp" />
     <ClCompile Include="lab5.cpp" />
     <ClCompile Include="lab6.cpp" />
     <ClCompile Include="lab7.cpp" />
     <ClCompile Include="lab8.cpp" />
+    <ClCompile Include="lab9.cpp" />
     <ClCompile Include="lab_funcs.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="swap_f.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header.h" />
+    <ClInclude Include="lab10.h" />
     <ClInclude Include="lab6.h" />
     <ClInclude Include="lab7.h" />
     <ClInclude Include="lab8.h" />
+    <ClInclude Include="lab9.h" />
     <ClInclude Include="lab_fucs.h" />
     <ClInclude Include="swap.h" />
   </ItemGroup>

@@ -10,14 +10,14 @@ void RecMenu() {
 		cout << "Меню рекурсии\n\n";
 		cout << "1) Рекурсия с таблицей\n\n";
 		cout << "2) Рекурсия с графиком\n\n";
-		cout << "3) Рекурсия с графиком 1-го семестра\n\n";
+		cout << "3) График 1-го семестра\n\n";
 		cout << "0) Выход\n\n";
 
 		i = _getch();
 		switch (i) {
 		case '1': system("cls"); lab7(); break;
 		case '2': system("cls"); lab7_graf(); break;
-		case '3': system("cls"); fterm = true; lab7_graf(); break;
+		case '3': system("cls"); fterm = true; lab7_graf(); fterm = false; break;
 		case '0': return;
 		default:
 			system("cls");
@@ -26,20 +26,6 @@ void RecMenu() {
 		}
 		
 	} while (i != 27);
-}
-
-long double NextRec_fterm(double x, double dx, double n, double& An, double nSum, double k, double a, int size) {
-	An = x < k * a?
-	-sqrt(abs(16 * mPow(a, 2) + 4 * mPow(a, 2) * mPow(x + a, 2))) - mPow(x + a, 2) - mPow(a, 2)
-	:
-	sqrt(abs(mPow(a, 2) - (x + mPow(a, 2)))) - 2 * a;
-	nSum = nSum + An;
-	RecData.setRec[(int)n - 1].IdSet = (int)n;
-	RecData.setRec[(int)n - 1].value1 = An;
-	RecData.setRec[(int)n - 1].value2 = nSum;
-
-	if (n < size) return NextRec_fterm(x + dx, dx, n + 1, An, nSum, k, a, size);
-	return nSum;
 }
 
 
@@ -62,29 +48,16 @@ long double NextRec(double x, double n,double &An, double nSum, int size = 20) {
 void lab7(bool pause) {
 	cout << "Расчет рекуррентного соотношения последоваельности\n";
 	cout << "\tиз 20 членов с последующим суммированием\n";
-	double A = 0, K = 0, x = 0, dx = 0;
-	int N = 20;
-	if (!fterm){
-		cout << "\nначальное значение x = 1\n";
-	}
-	else {
-		cout << "\nвведите значение N\n";
-		cin >> N;
-		cout << "\nвведите значение A\n";
-		cin >> A;
-		cout << "\nвведите значение K\n";
-		cin >> K;
-		x = -A * (2.2);
-		dx = A/5;
-	}
+	int N = 20; double x = 1;
 	RecData.SetCount(N);
 	RecData.setRec[0].IdSet = 1;
 	RecData.setRec[0].value1 = x;
 	RecData.setRec[0].value2 = 0;
 	double y = 0;
-	if (!fterm) y = NextRec(x, 1, x, 0); else y = NextRec_fterm(x, dx, 1, x, 0, K, A, N);
+	RecData.model = mod_n_An_Y;
+	y = NextRec(x, 1, x, 0);
 	printf("\nвывести конечные значения y=%f,\tпри x=%4f\n", y, x);
-	cout << "\nNпп\t  чден ряда\t накопленное значчение\n";
+	cout << "\nNпп\t  член ряда\t накопленное значение\n";
 	for (int i = 0; i < RecData.count;i++) {
 		cout << setw(4) << RecData.setRec[i].IdSet << setw(20) << RecData.setRec[i].value1
 			<< setw(20) << RecData.setRec[i].value2 << endl;
@@ -95,17 +68,18 @@ void lab7(bool pause) {
 
 void lab7_graf() {
 	RecData.Clear();
-	lab7(false);
-
-	stRECT Rect(450, 200, 800, 400);
+	if (fterm) lab3_1(); else lab7(false);
+	stRECT Rect(450, 300, 800, 400);
 	cout << "График\n\n";
-	DrawGraf(Rect, RecData);
+	char sTitle[45] = { "График значений рекурентного соотношения" };
+	char sfTitle[45] = { "График 1-го семестра" };
+	if (fterm) DrawGraf(Rect, RecData, sfTitle); else DrawGraf(Rect, RecData, sTitle);
 	_getch();
 	CLRSCR;
 
 }
 
-void DrawGraf(stRect prect, stRecursion& pRecData) {
+void DrawGraf(stRect prect, stRecursion& pRecData, char* sfTitle) {
 	if (pRecData.count == 0) { cout << "Построение графика невозможно!\n"; return; }
 
 	int indx = 120, indy = 60, gWidth = prect.Width - indx * 2, gHeight = prect.Height - indy * 2;
@@ -130,10 +104,9 @@ void DrawGraf(stRect prect, stRecursion& pRecData) {
 	SetBkColor(hdc, RGB(78, 78, 78));
 
 	holdfont = (HFONT)SelectObject(hdc, hfTitle);
-	char sTitle[45]{ "График значений рекурентного соотношения" };
 	SIZE size;
-	GetTextExtentPoint32A(hdc, sTitle, strlen(sTitle), &size);
-	TextOutA(hdc, prect.Left + indx + (gWidth - size.cx)/2, prect.Top+2, sTitle, strlen(sTitle));
+	GetTextExtentPoint32A(hdc, sfTitle, strlen(sfTitle), &size);
+	TextOutA(hdc, prect.Left + indx + (gWidth - size.cx)/2, prect.Top+2, sfTitle, strlen(sfTitle));
 	DeleteObject(SelectObject(hdc, holdfont)); hfTitle = 0;
 	SelectObject(hdc, pen);
 	DrawAxisX(hdc, InRect, pRecData.count, pRecData);

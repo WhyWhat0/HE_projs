@@ -24,7 +24,7 @@ typedef struct _stRecItem{
 typedef struct _stRecursion {
 	int count;	//количесво элементов структур в наборе данных
 	pstRecItem setRec; // массив структур
-	enModel model = mod_n_An; //модель данных
+	enModel model = mod_n_An_Y; //модель данных
 	_stRecursion(): count(0), setRec(NULL){}
 	_stRecursion(int pCount) { setRec = new stRecItem[count]; }
 	~_stRecursion() { delete[] setRec; }
@@ -156,9 +156,10 @@ typedef struct stRect {
 	uint Right() { return Left + Width; }
 
 }stRECT, *pstRECT;
+extern stRecursion RecData;
 void lab7(bool pause = true);
 void lab7_graf();
-void DrawGraf(stRect prect, stRecursion& pRecData);
+void DrawGraf(stRect prect, stRecursion& pRecData, char* sfTitle);
 
 void DrawAxisX(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* ptext = NULL);
 void DrawAxisY(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* ptext = NULL);

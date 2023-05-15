@@ -15,7 +15,9 @@ int main(){
 		cout << "3) Лабиринт\n\n";
 		cout << "4) Рекурсия\n\n";
 		cout << "5) Макросы\n\n";
-		cout << "6) Шифр Цезаря\n\n";
+		cout << "6) Шифрование\n\n";
+		cout << "7) Сортировка массива строк\n\n";
+		cout << "8) Классы\n\n";
 		cout << "0) Выход из программы \n\n";
 		i = _getch();
 		system("cls");
@@ -36,6 +38,8 @@ int main(){
 			lab_macros(); break;
 		case '6':
 			CordingMenu(); break;
+		case '8':
+			ClassesMenu(); break;
 		case '0':
 			return 0;
 		default:
@@ -68,7 +72,7 @@ int menu1() {
 		case '2':
 			lab2_2(); break;
 		case '3':
-			lab3_1(); break;
+			lab3_1(); _getch(); break;
 		case '4':
 			lab3_2(); break;
 		case '5':
