@@ -133,6 +133,7 @@
     <ClCompile Include="CManager.cpp" />
     <ClCompile Include="CRectangle.cpp" />
     <ClCompile Include="CTriangle.cpp" />
+    <ClCompile Include="CUnion.cpp" />
     <ClCompile Include="lab10.cpp" />
     <ClCompile Include="lab5.cpp" />
     <ClCompile Include="lab6.cpp" />
@@ -149,7 +150,6 @@
     <ClInclude Include="lab6.h" />
     <ClInclude Include="lab7.h" />
     <ClInclude Include="lab8.h" />
-    <ClInclude Include="lab9.h" />
     <ClInclude Include="lab_fucs.h" />
     <ClInclude Include="swap.h" />
   </ItemGroup>

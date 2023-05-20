@@ -1,10 +1,20 @@
 #include"lab10.h"
 
-CRectangle* rectangle = 0;
-CTriangle* triangle = 0;
-CEllipse* ellipse = 0;
+//CRectangle* rectangle = 0;
+//CTriangle* triangle = 0;
+//CEllipse* ellipse = 0;
+CFigure* GetFigure(CManager& manager) {
+	int id = 0;
+	cout << "Укажите идентификатор объекта==>"; cin >> id;
+	return manager.GetFigure(id);
+}
 void ClassesMenu() {
+	int id = 0;
+	CManager manager;
+	CFigure* hig = 0, * dig = 0;
 	UCHAR ch = 0;
+	string sclass{};
+
 	//CRectangle * rectangle = 0;
 	do {
 		CLEAR;
@@ -13,8 +23,9 @@ void ClassesMenu() {
 		cout << " Меню для реализации классов\n\n";
 		cout << "1 - Создать объект \n";
 		cout << "2 - Изменить свойства объекта\n";
-		cout << "3 - Нарисовать все объекты\n";
+		cout << "3 - Нарисовать объекты\n";
 		cout << "4 - Модель родительского класса\n";
+		cout << "5 - Соединить линией\n";
 		cout << "esc - Назад\n";
 
 		ch = _getch();
@@ -24,28 +35,68 @@ void ClassesMenu() {
 			cout << "3 - эллипс\n";
 			ch = _getch();
 			switch (ch) {
-			case '1': rectangle = new CRectangle(100, 200, 50, 45, RGB(150, 92, 255), RGB(255, 255, 255));
-				rectangle->Draw();
-				cout << rectangle->GetName() << endl; 
+			case '1': hig = new CRectangle(100, 200, 50, 45, RGB(150, 92, 255), RGB(255, 255, 255));
+				manager.AddFigure(hig);
+				hig->SetId(manager.Count());
+				hig->Draw();
+				cout << hig->GetName() << endl;
 				DELAY;
 				break;
-			case '2': triangle = new CTriangle(250, 300, 50, 50, RGB(45, 96, 211), RGB(255, 255, 0));
-				triangle->Draw();
-				break;	
-			case '3': ellipse = new CEllipse(400, 500, 70, 50, RGB(45, 96, 211), RGB(0, 255, 0));
-				ellipse->Draw();
+			case '2': hig = new CTriangle(250, 300, 50, 50, RGB(45, 96, 211), RGB(255, 255, 0));
+				manager.AddFigure(hig);
+				hig->SetId(manager.Count());
+				hig->Draw();
+				cout << hig->GetName() << endl;
+				DELAY;
+				break;
+			case '3': hig = new CEllipse(400, 500, 70, 50, RGB(45, 96, 211), RGB(0, 255, 0));
+				manager.AddFigure(hig);
+				hig->SetId(manager.Count());
+				hig->Draw();
+				cout << hig->GetName() << endl;
+				DELAY;
 				break;
 			}
 			ch = 0;
 			break;
-		case '2': ParamMenu(); break;
+		case '2': ParamMenu(manager); break;
 		case '3':ClearScreen();
-			if (rectangle != 0) rectangle->Draw(); 
-			if (triangle != 0) triangle->Draw();
-			if (ellipse != 0) ellipse->Draw();
+			cout << "1 - Отобразить все фигуры\n";
+			cout << "2 - Отобразить фигуру по идентификатору\n";
+			cout << "3 - Отобразить фигуру класса\n";
+			cout << "4 - Отобразить соединенные фигуры\n";
+			ch = _getch();
+			ClearScreen();
+			switch (ch) {
+			case '1': manager.Draw(); break;
+			case '2':hig = GetFigure(manager);
+				if (hig == NULL) {
+					cout << "Объект по идентификатору не найден\n"; DELAY;
+					break;
+				}
+				hig->Draw();
+				break;
+			case '3':
+				cout << "Введите наименование класса ==> "; cin >> sclass;
+				manager.Draw(sclass);
+				break;
+			case '4': manager.DrawGraph();
+				DELAY;
+				break;
+			}
 			DELAY;
 			break;
-		case '4': CFigure * gig = rectangle;
+		case '5': {
+			cout << "Введите идентификатор первой фигуры => "; cin >> id;
+			hig = manager.GetFigure(id);
+			cout << "\nВведите идентификатор второй фигуры => "; cin >> id;
+			dig = manager.GetFigure(id);
+			manager.AddUnion(hig, dig);
+			manager.DrawGraph();
+
+		}break;
+		case '4':
+			CFigure* gig = GetFigure(manager);
 			if (gig == 0) {
 				ClearScreen();
 				for (int i = 1; i < 32; i++) {
@@ -69,14 +120,16 @@ void ClassesMenu() {
 			gig->Draw();
 			DELAY;
 			break;
+		
 		}
 	} while (ch != 27);
+
 }
 
-void ParamMenu() {
+void ParamMenu(CManager& pmanager) {
 	UCHAR ch = 0;
 	int val = 0;
-	
+	CFigure* gig = 0;
 	do {
 		CLEAR;
 
@@ -89,31 +142,43 @@ void ParamMenu() {
 		ch = _getch();
 		switch (ch) {
 		case '1': 
+			gig = GetFigure(pmanager);
+			if (gig == NULL) {
+				cout << "ЭТО ФИАСКО! ID НЕ НАЙДЕН!!!";
+				break;
+			}
 			cout << "Введите 0, если параметр меняется!!!\n\n";
-			cout << "Введите координату X (" << rectangle->X() << ") "; cin >> val;
-			if (val > 0) rectangle->X(val);
-			cout << "Введите координату Y (" << rectangle->Y() << ") "; cin >> val;
-			if (val > 0) rectangle->Y(val);
+			cout << "Введите координату X (" << gig->X() << ") "; cin >> val;
+			if (val > 0) gig->X(val);
+			cout << "Введите координату Y (" << gig->Y() << ") "; cin >> val;
+			if (val > 0) gig->Y(val);
 			break;
 		case '2':  
+			gig = GetFigure(pmanager);
+			if (gig == NULL) {
+				cout << "ЭТО ФИАСКО! ID НЕ НАЙДЕН!!!";
+				break;
+			}
 			cout << "Введите 0, если параметр меняется!!!\n\n";
-			cout << "Введите ширину(" << rectangle->Width() << ") "; cin >> val;
-			if (val > 0) rectangle->Width(val);
-			cout << "Введите высоту(" << rectangle->Height() << ") "; cin >> val;
-			if (val > 0) rectangle->Height(val);
+			cout << "Введите ширину(" << gig->Width() << ") "; cin >> val;
+			if (val > 0) gig->Width(val);
+			cout << "Введите высоту(" << gig->Height() << ") "; cin >> val;
+			if (val > 0) gig->Height(val);
 			break;
 		case '3': 
+			gig = GetFigure(pmanager);
+			if (gig == NULL) {
+				cout << "ЭТО ФИАСКО! ID НЕ НАЙДЕН!!!";
+				break;
+			}
 			cout << "Введите -1, если параметр меняется!!!\n\n";
-			cout << "Введите цвет фона(" << rectangle->BrushColor() << ") "; cin >> val;
-			if (val > 0) rectangle->BrushColor(val);
-			cout << "Введите цвет контура(" << rectangle->Height() << ") "; cin >> val;
-			if (val > 0) rectangle->PenColor(val);break;
-			if (rectangle != 0) rectangle->Draw();
+			cout << "Введите цвет фона(" << gig->BrushColor() << ") "; cin >> val;
+			if (val > 0) gig->BrushColor(val);
+			cout << "Введите цвет контура(" << gig->Height() << ") "; cin >> val;
+			if (val > 0)gig->PenColor(val);break;
+			if (gig != 0) gig->Draw();
 			break;
 		}
 	} while (ch != 27);
 }
 
-void lab10() {
-
-}

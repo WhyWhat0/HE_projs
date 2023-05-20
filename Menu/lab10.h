@@ -9,11 +9,12 @@ protected:
 public:
 	CID() : nid(0), sname("CID") {}
 	CID(int pid, string pname = "CID") : nid(pid), sname(pname) {}
+	int ID() { return nid; }
 
 	int GetId() { return nid; }
 	void SetId(int pid) { nid = pid; }
-	string GetName() { return sname; }
-	void SetName(string pname) { sname = pname; }
+	virtual string GetName() { return sname; }
+	virtual void SetName(string pname) { sname = pname; }
 };
 
 class CFigure : public CID {
@@ -87,16 +88,51 @@ public:
 	virtual void Draw();
 };
 
+class CUnion { //соединитель объектов
+	CFigure* fig1, *fig2; //фигура первая и вторая
+	int color,
+		width;
+public:
+	CUnion(CFigure* pfig1 = NULL, CFigure* pfig2 = NULL);
+	~CUnion();
+
+	void SetFigure1(CFigure* pfig);
+	void SetFigure2(CFigure* pfig);
+	void SetColor(int pcolor);
+	void SetWidth(int pwid);
+	CFigure* GetFigure1();
+	CFigure* GetFigure2();
+	int GetColor();
+	int GetWidth();
+
+	void Draw();
+
+};
 class CManager {
 private:
 	CFigure** figures;		// это динамический массив объектов: прямоугольников, треугольников и овалов
 	int ncount;				// количесво объектов в figures
-public:
-	CManager() : figures(NULL), ncount(0){}
-	~CManager(){}
+	CUnion* ounions;		// динамический массив объектов CUnion
+	int nunion;			//кол-во соединений
 
+public:
+	CManager();
+	~CManager();
+
+	CFigure* operator[](int index);
 	int AddFigure(CFigure* pFigure);
+	int Count();
+	CFigure* GetFigure(int pid);
+
+
+	CUnion GetUnion(int index);
+	int AddUnion(CFigure* pf1 = NULL, CFigure* pf2 = NULL);
+
+	void Draw();
+	void Draw(int pid); // отрисовка по ID
+	void Draw(string pclass); // отрисовка по классу
+	void DrawGraph(); // отрисовка фигур и линий соединения
 };
 
 void lab10();
-void ParamMenu();
+void ParamMenu(CManager& manager);

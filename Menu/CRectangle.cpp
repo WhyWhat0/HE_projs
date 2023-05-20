@@ -38,6 +38,8 @@ void CRectangle :: Draw() {
 	//SelectObject(hdc, brush);
 
 	Rectangle(hdc, Left(), Top(), Right(), Bottom());
+	string text = to_string(ID());
+	TextOutA(hdc, MiddleX(), MiddleY(), text.c_str(), text.length());
 	DeleteObject(hbrush);
 	DeleteObject(hpen);
 	ReleaseDC(hwnd,hdc);

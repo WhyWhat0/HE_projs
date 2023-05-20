@@ -1,12 +1,12 @@
 ﻿#include <iostream>
 using namespace std;
-char TextCode[128]{ 0 };
-// Driver code
+typedef struct _what {
+public:
+    int a;
+    _what() : a(0) {}
+    _what(int pa) : a(pa) {}
+} what;
 int main()
-{
-    cout << "Wjdkfkjsdhfsdhj\n";
-    cin.getline(TextCode, 128); 
-    cout << TextCode;
-    
+{   
     return 0;
 }

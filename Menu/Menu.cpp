@@ -38,6 +38,8 @@ int main(){
 			lab_macros(); break;
 		case '6':
 			CordingMenu(); break;
+		case '7':
+			LabSort(); break;
 		case '8':
 			ClassesMenu(); break;
 		case '0':

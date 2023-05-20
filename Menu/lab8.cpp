@@ -17,7 +17,7 @@ void CordingMenu() {
 		cout<< "4 - Декодирование\n";
 		cout<< "5 - Определить строку кодирования\n";
 		cout<< "6 - Отобразить текст для шифрования\n";
-		cout<< "7 - Отобразить шифрованные текст\n";
+		cout<< "7 - Отобразить шифрованный текст\n";
 		cout<< "8 - Подготовить строку для битового кодирования\n\n";
 		cout<< "Для выхода из программы нажмите ESC";
 
@@ -72,6 +72,9 @@ void Cording() {
 		else /*if (ch == ' ')*/ TextCording[i] = ch;
 	}
 	TextCording[strlen(TextCode)] = 0;
+	SetColor(CL_BLACK, CL_LIGHT_YELLOW);
+	cout << endl << "Текст после шифрования: " << TextCording << endl;	DELAY;
+	SetColor(0, 15);
 }
 
 void DinCording() {
@@ -108,6 +111,10 @@ void DinCording() {
 		else TextCording[i] = ch;
 	}
 	TextCording[strlen(TextCode)] = 0;
+	SetColor(CL_BLACK, CL_LIGHT_YELLOW);
+	cout << endl << "Текст после шифрования: " << TextCording << endl;	DELAY;
+	SetColor(0, 15);
+
 }
 
 void BitCording(bool pToLeft) {
@@ -143,6 +150,9 @@ void BitCording(bool pToLeft) {
 
 void DeCording() {
 	CLEAR;
+	SetColor(CL_BLACK, CL_LIGHT_RED);
+	cout << "Строка до декодирования: " << TextCording << endl << endl;
+	SetColor(0, 15);
 	switch (nCode) {
 	case CD_Cesar:
 		for (int i = 0; i < strlen(TextCording); i++) {
@@ -181,5 +191,11 @@ void DeCording() {
 	case CD_Bit:
 		BitCording(false);
 		break;
+	}
+	if (nCode != CD_Bit) {
+		SetColor(CL_BLACK, CL_LIGHT_YELLOW);
+			cout << "Строка после декодирования: " << TextCording;
+			SetColor(0, 15);
+			PAUSE;
 	}
 }

@@ -2,14 +2,17 @@
 
 CEllipse::CEllipse() : CFigure() {
 	BrushColor(RGB(255, 255, 0)); //цвет заливки
+	SetName("CEllipse");
+
 }
 
 CEllipse::CEllipse(int pnx, int pny, int pnWidth, int pnHeight) : CFigure(pnx, pny, pnWidth, pnHeight) {
 	BrushColor(RGB(255, 255, 0)); //цвет заливки
-	//pencolor = 0x00FFFFFF; //цвет котура
+	SetName("CEllipse");
 }
 CEllipse::CEllipse(int pnx, int pny, int pnWidth, int pnHeight, int pbrushcolor, int ppencolor)
 	: CFigure(pnx, pny, pnWidth, pnHeight, pbrushcolor, ppencolor) {
+	SetName("CEllipse");
 }
 void CEllipse::Draw() {
 	HWND hwnd = GetConsoleWindow();
@@ -36,6 +39,8 @@ void CEllipse::Draw() {
 	//SelectObject(hdc, brush);
 
 	Ellipse(hdc, Left(), Top(), Right(), Bottom());
+	string text = to_string(ID());
+	TextOutA(hdc, MiddleX(), MiddleY(), text.c_str(), text.length());
 	DeleteObject(hbrush);
 	DeleteObject(hpen);
 	ReleaseDC(hwnd, hdc);
