@@ -41,7 +41,7 @@ const int nbx = 12, nby = 0, // координаты начала
 nex = 10, ney = 31; // координаты конца
 uint Bit = 0b1000'0000'0000'0000'0000'0000'0000'0000;
 const int Rows = 32, Cols = 32; // ширина и длина поля
-uint* visited; uint* shvisited; // пройденный путь и наикротчайший путь
+uint* visited; // пройденный путь и наикротчайший путь
 int way = Rows*Cols; // длина наикротчайшего пути
 
 void lab6() {
@@ -84,56 +84,27 @@ void lab6() {
 		SetColor(CL_BLACK);
 		point(nx, ny);
 		cout << "  ";
-		if (c == 224) {
-			c = _getch();
-			switch (c) {
-			case 72:
-				if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1; // вверх
-				break;
-			case 80:
-				if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1; // вниз
-				break;
-			case 75:
-				if (((Bit >> nx - 1) & map[ny]) || nx - 1 < 0) Beep(400, 100); else nx -= 1; // влево
-				break;
-			case 77:
-				if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1; // вправо
-				break;
-			}
-		}
-		else {
-			switch (c) {
-			case 63:
-				visited = new uint[Rows];
-				memset(visited, 0, sizeof(uint) * Rows); 
-				find_way(nx, ny);
-				delete[] visited; visited = NULL;
-				break;
-			case 64:
-				visited = new uint[Rows]; 
-				shvisited = new uint[Rows]; 
-				memset(visited, 0, sizeof(uint) * Rows);
-				memset(shvisited, 0, sizeof(uint) * Rows);
-				find_short_way(nx, ny);
-				paint(CL_GREEN, CL_GREEN);
-				//delete[] shvisited; visited = NULL;
-				delete[] visited; visited = NULL;
-				break;
-			case 119:
-				if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1;// вверх
-				break;
-			case 115:
-				if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1;// вниз
-				break;
-			case 97:
-				if (((Bit >> nx - 1) & map[ny]) || nx - 1 < 0) Beep(400, 100); else nx -= 1;// влево
-				break;
-			case 100:
-				if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1;// вправо
-				break;
-			default:
-				Beep(400, 50); break;
-			}
+		switch (c) {
+		case 63:
+			visited = new uint[Rows];
+			memset(visited, 0, sizeof(uint) * Rows); 
+			find_way(nx, ny);
+			delete[] visited; visited = NULL;
+			break;
+		case 119:
+			if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1;// вверх
+			break;
+		case 115:
+			if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1;// вниз
+			break;
+		case 97:
+			if (((Bit >> nx - 1) & map[ny]) || nx - 1 < 0) Beep(400, 100); else nx -= 1;// влево
+			break;
+		case 100:
+			if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1;// вправо
+			break;
+		default:
+			Beep(400, 50); break;
 		}
 		
 	} while (c != 27 && !(nx == nex && ny == ney)); 
@@ -186,59 +157,4 @@ int find_way(int nx, int ny) { // поиск путь
 	cout << "  ";
 	
 	return 0;
-}
-
-int find_short_way(int nx, int ny, int pway) { // поиск наикротчайшего пути
-
-	int k = 0;
-	visited[ny] |= Bit >> nx;
-	if (nx == nex && ny == ney) {
-		if (pway < way) {
-			way = pway;
-			for (int i = 0; i < Rows; i++) {
-				shvisited[i] = visited[i];
-			}
-		}
-		visited[ney] -= Bit >> nex;
-		return 1;
-	}
-
-	if (nx + 1 <= Cols) {
-		if (!((Bit >> nx + 1) & map[ny]) && !(visited[ny] & (Bit >> nx + 1))) {
-			if (find_short_way(nx + 1, ny, pway + 1)) k = 1;
-		}
-	}
-	if (ny + 1 <= Rows) {
-		if (!((Bit >> nx) & map[ny + 1]) && !(visited[ny + 1] & (Bit >> nx))) {
-			if (find_short_way(nx, ny + 1, pway + 1)) k = 1;
-		}
-	}
-	if (ny - 1 >= 0) {
-		if (!((Bit >> nx) & map[ny - 1]) && !(visited[ny - 1] & (Bit >> nx))) {
-			if (find_short_way(nx, ny - 1, pway + 1)) k = 1;
-		}
-	}
-	
-	if (nx - 1 >= 0) {
-		if (!((Bit >> nx - 1) & map[ny]) && !(visited[ny] & (Bit >> nx - 1))) {
-			if (find_short_way(nx - 1, ny, pway + 1)) k = 1;
-		}
-	}
-	visited[ny] -= Bit >> nx;
-	return k;
-}
-
-// зарисовка наикротчайшего пути
-void paint(int cl1, int cl2) {
-	for (int i = 0; i < Rows; i++) {
-		if (shvisited[i] != 0) {
-			for (int j = 0;j < Cols; j++) {
-				if (shvisited[i] & (Bit >> j)) {
-					SetColor(cl1, cl2);
-					point(j, i);
-					cout << "  ";
-				}
-			}
-		}
-	}
 }
