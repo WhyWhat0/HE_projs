@@ -1,6 +1,7 @@
 ﻿#include "Header.h" //Заголовки функций для лабораторных работ
 
 int main(){
+	system("color F0");
 	uchar i; // для выбора пункта меню
 	setlocale(LC_ALL, "Russian");
 	SetConsoleCP(1251);

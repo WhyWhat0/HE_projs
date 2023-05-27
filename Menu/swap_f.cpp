@@ -16,27 +16,6 @@ void lab_macros() {
 	printf("A (LOW) = %04x\nA (HIGH) = %04x\n\n", low(a), high(a));
 	printf("B (LOW) = %0hx\nB (HIGH) = %0hx\n\n", luw(b), high(b));
 	printf("C (LOW) = %08llx\nC (HIGH) = %08llx\n\n", low(c), high(c));
-	
-	/*printf("%02hx\n", b);
-	uchar l;
-	do {
-		l = _getch();
-		switch (l) {
-		case 'a':
-			b = b << 4;
-			printf("%0hx\n",b);
-			break;
-		
-		case 'd':
-			b = b >> 4;
-			printf("%0hx\n", b);
-			break;
-			{
-		default:
-			break;
-			}
-		}
-	} while (l != 27);*/
 
 	a = swap_int(a);
 	b = swap_short(b);

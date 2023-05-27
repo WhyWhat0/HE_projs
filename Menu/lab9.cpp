@@ -1,4 +1,4 @@
-#include "header.h"
+#include "Header.h"
 #include <ctime>
 
 string a[20];

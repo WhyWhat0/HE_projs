@@ -84,27 +84,46 @@ void lab6() {
 		SetColor(CL_BLACK);
 		point(nx, ny);
 		cout << "  ";
-		switch (c) {
-		case 63:
-			visited = new uint[Rows];
-			memset(visited, 0, sizeof(uint) * Rows); 
-			find_way(nx, ny);
-			delete[] visited; visited = NULL;
-			break;
-		case 119:
-			if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1;// вверх
-			break;
-		case 115:
-			if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1;// вниз
-			break;
-		case 97:
-			if (((Bit >> nx - 1) & map[ny]) || nx - 1 < 0) Beep(400, 100); else nx -= 1;// влево
-			break;
-		case 100:
-			if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1;// вправо
-			break;
-		default:
-			Beep(400, 50); break;
+		if (c == 224) {
+			c = _getch();
+			switch (c) {
+			case 72:
+				if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1; // вверх
+				break;
+			case 80:
+				if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1; // вниз
+				break;
+			case 75:
+				if (((Bit >> nx - 1) & map[ny]) || nx - 1 < 0) Beep(400, 100); else nx -= 1; // влево
+				break;
+			case 77:
+				if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1; // вправо
+				break;
+			}
+		}
+		else {
+			switch (c) {
+			case 63:
+				visited = new uint[Rows];
+				memset(visited, 0, sizeof(uint) * Rows); 
+				find_way(nx, ny);
+				delete[] visited; visited = NULL;
+				break;
+			case 119:
+				if (((Bit >> nx) & map[ny - 1]) || ny - 1 < 0) Beep(400, 100); else ny -= 1;// вверх
+				break;
+			case 115:
+				if (((Bit >> nx) & map[ny + 1]) || ny + 1 >= Rows) Beep(400, 100); else ny += 1;// вниз
+				break;
+			case 97:
+				if (((Bit >> nx - 1) & map[ny]) || nx - 1 < 0) Beep(400, 100); else nx -= 1;// влево
+				break;
+			case 100:
+				if (((Bit >> nx + 1) & map[ny]) || nx + 1 >= Cols) Beep(400, 100); else nx += 1;// вправо
+				break;
+			default:
+				Beep(400, 50); break;
+			}
 		}
 		
 	} while (c != 27 && !(nx == nex && ny == ney)); 
