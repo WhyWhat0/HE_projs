@@ -16,10 +16,7 @@ int CManager::AddFigure(CFigure* pFigure) {
 }
 int CManager:: Count() { return ncount; }
 
-void CManager::Draw() {
-	for (int i = 0;i < ncount;i++) figures[i]->Draw();
-	
-}
+
 CFigure* CManager :: GetFigure(int pid) {
 	for (int i = 0; i < ncount; i++) {
 		if (figures[i]->ID() == pid) return figures[i];
@@ -43,7 +40,12 @@ int CManager::AddUnion(CFigure* pf1, CFigure* pf2) {
 	return nunion - 1;
 }
 
-void CManager::CManager::Draw(int pid) {
+void CManager::Draw() {
+	for (int i = 0;i < ncount;i++) figures[i]->Draw();
+
+}
+// отрисовка всех фигур
+void CManager::Draw(int pid) {
 	CFigure* gig = GetFigure(pid);
 	if (gig != NULL) gig->Draw();
 }
@@ -52,9 +54,55 @@ void  CManager::Draw(string pclass) {
 	for (int i = 0;i < ncount;i++) if (figures[i]->GetName() == pclass) figures[i]->Draw();
 }
 	// отрисовка по классу
-
 void CManager::DrawGraph(){
 	for (int i = 0; i < nunion; i++){
 		ounions[i].Draw(); Draw();
 	}
+}
+//отрисовка соединенных фигур
+
+void CManager::Load(string pfile) {
+	ifstream fin;
+	fin.open(pfile);
+	if (!fin) return;
+
+	string s;
+	int id;
+	while (getline(fin, s)) {
+		switch (s[0]) {
+
+		}
+	}
+}
+
+void CManager::Save(string pfile) {
+	ofstream fout;
+	fout.open(pfile);
+	if (!fout) return;
+
+	for (int i = 0; i < ncount; i++) {
+		CFigure* fig = figures[i];
+		if (fig == NULL) continue;
+		fout << fig->GetName() << endl;
+		fout << "i=" << fig->GetId() << endl;
+		fout << "x=" << fig->X() << endl;
+		fout << "y=" << fig->Y() << endl;
+		fout << "w=" << fig->Width() << endl;
+		fout << "h=" << fig->Height() << endl;
+		fout << "b=" << fig->BrushColor() << endl;
+		fout << "p=" << fig->PenColor() << endl;
+		fout << "end\n";
+	}
+
+	for (int i = 0; i < nunion; i++) {
+		CUnion ounion = GetUnion(i);
+		//fout << ounion.GetName() << endl;
+		fout << "fig1=" << ounion.GetFigure1()->ID();
+		fout << "fig2=" << ounion.GetFigure2()->ID();
+		fout << "width=" << ounion.GetWidth() << endl;
+		fout << "color=" << ounion.GetColor() << endl;
+		fout << "end\n";
+	}
+
+	fout.close();
 }

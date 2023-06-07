@@ -154,6 +154,7 @@
     <ClInclude Include="swap.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="classes.txt" />
     <Text Include="Inp.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

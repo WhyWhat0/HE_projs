@@ -55,7 +55,7 @@ public:
 	int MiddleX() { return nx + nWidth / 2; }
 	int MiddleY() { return ny + nHeight / 2; }
 
-	virtual void Draw() { cout << " да."; };
+	virtual void Draw() { cout << " Карта пути в прошмандовки Азербайджана."; };
 };
 
 class CRectangle : public CFigure {	
@@ -132,6 +132,9 @@ public:
 	void Draw(int pid); // отрисовка по ID
 	void Draw(string pclass); // отрисовка по классу
 	void DrawGraph(); // отрисовка фигур и линий соединения
+
+	void Load(string pfile);
+	void Save(string pfile);
 };
 
 void lab10();

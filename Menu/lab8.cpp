@@ -8,9 +8,7 @@ void CordingMenu() {
 	UCHAR ch = 0;
 	do {
 		CLEAR;
-		SetColor(CL_BLACK, CL_LIGHT_YELLOW);
 		cout << " Меню Кодирования Текста \n\n";
-		SetColor(0, 15);
 		cout<< "1 - Метод \"Цезаря\"\n";
 		cout<< "2 - Динамическое кодирование\n";
 		cout<< "3 - Битовое смещение\n";
@@ -31,15 +29,11 @@ void CordingMenu() {
 		case '4':DeCording(); break;
 		case '5':
 			CLEAR;
-			SetColor(CL_BLACK, CL_LIGHT_RED);
 			cout << "Введите текст для Шифрования\n=>";
-			SetColor(0, 15);
 			cin.getline(TextCode, 128); break;
-			SetColor(CL_BLACK, CL_LIGHT_RED);
 		case '6': CLEAR; cout << "Текст для шифрования\n=>" << TextCode << endl; PAUSE; break;
-			SetColor(0, 15);
 
-		case '7': CLEAR; SetColor(CL_BLACK, CL_LIGHT_RED); cout << "Текст после шифрования\n=>" << TextCording << endl; PAUSE;break;
+		case '7': CLEAR; cout << "Текст после шифрования\n=>" << TextCording << endl; PAUSE;break;
 		case '8':strcpy_s(TextCording, 128, TextCode); break;
 		}
 	} while (ch != 27);
@@ -50,9 +44,7 @@ void Cording() {
 	TextCording[0] = 0;
 	CLEAR;
 
-	SetColor(CL_BLACK, CL_LIGHT_PURPLE);
 	cout << "Кодирование текста методом \"Цезаря\"\n\n";
-	SetColor(0, 15);
 	cout << "Текст для шифрования =>" << TextCode << endl;
 	cout << "На сколько символов смещать шифр?\n=>"; cin >> Limit;
 
@@ -72,9 +64,7 @@ void Cording() {
 		else /*if (ch == ' ')*/ TextCording[i] = ch;
 	}
 	TextCording[strlen(TextCode)] = 0;
-	SetColor(CL_BLACK, CL_LIGHT_YELLOW);
 	cout << endl << "Текст после шифрования: " << TextCording << endl;	DELAY;
-	SetColor(0, 15);
 }
 
 void DinCording() {
@@ -82,9 +72,7 @@ void DinCording() {
 	TextCording[0] = 0;
 
 	CLEAR;
-	SetColor(CL_BLACK, CL_LIGHT_PURPLE);
 	cout << "Кодирование текста методом \"Цезаря с динамическим смещением\"\n\n";
-	SetColor(0, 15);
 	cout << "Текст для шифрования =>" << TextCode << endl;
 
 
@@ -111,9 +99,7 @@ void DinCording() {
 		else TextCording[i] = ch;
 	}
 	TextCording[strlen(TextCode)] = 0;
-	SetColor(CL_BLACK, CL_LIGHT_YELLOW);
 	cout << endl << "Текст после шифрования: " << TextCording << endl;	DELAY;
-	SetColor(0, 15);
 
 }
 
@@ -150,9 +136,7 @@ void BitCording(bool pToLeft) {
 
 void DeCording() {
 	CLEAR;
-	SetColor(CL_BLACK, CL_LIGHT_RED);
 	cout << "Строка до декодирования: " << TextCording << endl << endl;
-	SetColor(0, 15);
 	switch (nCode) {
 	case CD_Cesar:
 		for (int i = 0; i < strlen(TextCording); i++) {
@@ -193,9 +177,7 @@ void DeCording() {
 		break;
 	}
 	if (nCode != CD_Bit) {
-		SetColor(CL_BLACK, CL_LIGHT_YELLOW);
 			cout << "Строка после декодирования: " << TextCording;
-			SetColor(0, 15);
 			PAUSE;
 	}
 }

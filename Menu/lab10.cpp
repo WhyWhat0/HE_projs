@@ -13,7 +13,8 @@ void ClassesMenu() {
 	CManager manager;
 	CFigure* hig = 0, * dig = 0;
 	UCHAR ch = 0;
-	string sclass{};
+	string sclass{},
+	sfile{"classes.txt"};
 
 	//CRectangle * rectangle = 0;
 	do {
@@ -26,6 +27,8 @@ void ClassesMenu() {
 		cout << "3 - Нарисовать объекты\n";
 		cout << "4 - Модель родительского класса\n";
 		cout << "5 - Соединить линией\n";
+		cout << "6 - Сохранить объекты\n";
+		cout << "7 - Загрузить объекты\n";
 		cout << "esc - Назад\n";
 
 		ch = _getch();
@@ -85,6 +88,18 @@ void ClassesMenu() {
 				break;
 			}
 			DELAY;
+			break;
+		case '6':
+			cout << "Введите имя файла: "; getline(cin, sfile);
+			if (!sfile.empty()) {
+				manager.Save(sfile);
+			}
+			break;
+		case '7':
+			cout << "Введите имя файла: "; getline(cin, sfile);
+			if (!sfile.empty()) {
+				manager.Load(sfile);
+			}
 			break;
 		case '5': {
 			cout << "Введите идентификатор первой фигуры => "; cin >> id;
