@@ -86,11 +86,11 @@ void DrawGraf(stRect prect, stRecursion& pRecData, char* sfTitle) {
 	stRect InRect(prect.Left + indx, prect.Top + indy, prect.Width - indx*2, prect.Height - indy*2);
 	HWND hwnd = GetConsoleWindow();
 	HDC hdc = GetDC(hwnd);
-	HPEN pen = CreatePen(PS_SOLID, 2, RGB(255, 258, 255)), //pink
+	HPEN pen = CreatePen(PS_SOLID, 2, RGB(0, 0, 0)), //pink
 		pen2 = CreatePen(PS_SOLID, 2, RGB(0, 255, 0)), //green
 		pen3 = CreatePen(PS_SOLID, 2, RGB(255, 0, 0)), //red
-		pen4 = CreatePen(PS_SOLID, 2, RGB(255, 255, 0)); //yellow
-	LOGBRUSH Igbr{ PS_SOLID, RGB(78, 78, 78), 0 };
+		pen4 = CreatePen(PS_SOLID, 2, RGB(0, 0, 255)); //blue
+	LOGBRUSH Igbr{ PS_SOLID, RGB(255, 255, 255), 0 };
 	HBRUSH brush = CreateBrushIndirect(&Igbr);
 	SelectObject(hdc, pen2);
 	SelectObject(hdc, brush);
@@ -100,8 +100,8 @@ void DrawGraf(stRect prect, stRecursion& pRecData, char* sfTitle) {
 		OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS,
 		CLEARTYPE_QUALITY, VARIABLE_PITCH, "Times New Roman");
 
-	SetTextColor(hdc, RGB(0, 255, 255));
-	SetBkColor(hdc, RGB(78, 78, 78));
+	SetTextColor(hdc, RGB(0, 0, 0));
+	SetBkColor(hdc, RGB(255, 255, 255));
 
 	holdfont = (HFONT)SelectObject(hdc, hfTitle);
 	SIZE size;
@@ -139,7 +139,7 @@ void DrawAxisX(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* 
 	LineTo(phdc, pInRect.Right(), pInRect.Bottom());
 
 	//if (psec > pRecData.count) psec = pRecData.count;
-	HPEN pen = CreatePen(PS_DOT, 1, RGB(200, 200,200)),
+	HPEN pen = CreatePen(PS_DOT, 1, RGB(0, 0,0)),
 	penold = (HPEN)SelectObject(phdc, pen);
 	HFONT hold, haixes = CreateFontA(14, 0, 0, 0, FW_NORMAL, false, false, false, RUSSIAN_CHARSET,
 		OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS,
@@ -156,7 +156,7 @@ void DrawAxisX(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* 
 	
 	double PxStep = pInRect.Width/(psec);
 	SIZE sizex;
-	SetTextColor(phdc, RGB(255, 255, 255));
+	SetTextColor(phdc, RGB(0, 0, 0));
 	for (int i = 0; i < psec; i++) {
 		if (i > 0) {
 			MoveToEx(phdc, pInRect.Left + i * PxStep, pInRect.Bottom() + 2, NULL);
@@ -180,8 +180,8 @@ void DrawAxisX(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* 
 	hold = (HFONT)SelectObject(phdc, haixtitle);
 	if (ptext == NULL) ptext = (char*)" ось x ";
 	SIZE size;
+	SetTextColor(phdc, RGB(0, 0, 0));
 	GetTextExtentPoint32A(phdc, ptext, strlen(ptext), &size);
-	SetTextColor(phdc, RGB(255, 0, 255));
 	TextOutA(phdc, pInRect.Left + pInRect.Width/2 - size.cx/2, pInRect.Bottom() + 30, ptext, strlen(ptext));
 }
 
@@ -209,7 +209,7 @@ void DrawAxisY(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* 
 		OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS,
 		CLEARTYPE_QUALITY, VARIABLE_PITCH, "Times New Roman");
 	hold = (HFONT)SelectObject(phdc, haixes);
-	SetTextColor(phdc, RGB(255, 255, 255));
+	SetTextColor(phdc, RGB(0, 0, 0));
 	for (int i = 0; i < psec; i++) {
 		if (i > 0) {
 			MoveToEx(phdc, pInRect.Left-2, pInRect.Bottom() - i * PxSec, NULL);
@@ -234,7 +234,7 @@ void DrawAxisY(HDC phdc, stRect pInRect, int psec, stRecursion& pRecData, char* 
 			CLEARTYPE_QUALITY, VARIABLE_PITCH, "Times New Roman");*/
 	holds = (HFONT)SelectObject(phdc, haixtitles);
 	if (ptext == NULL) ptext = (char*)" ось y ";
-	SetTextColor(phdc, RGB(255, 0, 255));
+	SetTextColor(phdc, RGB(0, 0, 0));
 	GetTextExtentPoint32A(phdc, ptext, strlen(ptext), &sizey);
 
 	TextOutA(phdc, pInRect.Left-100, pInRect.Bottom() - pInRect.Height/2 + sizey.cx/2, ptext, strlen(ptext));
